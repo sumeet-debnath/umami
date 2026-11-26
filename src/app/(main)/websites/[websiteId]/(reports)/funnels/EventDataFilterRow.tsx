@@ -150,7 +150,12 @@ function OperatorSelect({
 }) {
   const { t, labels } = useMessages();
   return (
-    <Select value={value} onChange={v => onChange?.(v as string)}>
+    <Select
+      value={value}
+      onChange={v => onChange?.(v as string)}
+      buttonProps={{ 'aria-label': 'Operator' }}
+      listProps={{ 'aria-label': 'Operator' }}
+    >
       <ListItem id="eq">{t(labels.is)}</ListItem>
       <ListItem id="neq">{t(labels.isNot)}</ListItem>
       <ListItem id="c">{t(labels.contains)}</ListItem>

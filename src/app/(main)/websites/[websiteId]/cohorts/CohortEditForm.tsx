@@ -17,6 +17,7 @@ import { ActionSelect } from '@/components/input/ActionSelect';
 import { DateFilter } from '@/components/input/DateFilter';
 import { FieldFilters } from '@/components/input/FieldFilters';
 import { LookupField } from '@/components/input/LookupField';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function CohortEditForm({
   cohortId,
@@ -58,7 +59,9 @@ export function CohortEditForm({
       },
       {
         onSuccess: async () => {
-          toast(t(messages.saved));
+          toast(
+            savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.cohort) })),
+          );
           touch('cohorts');
           onSave?.();
           onClose?.();
@@ -88,7 +91,7 @@ export function CohortEditForm({
         return (
           <Column gap="4">
             <FormField name="name" label={t(labels.name)} rules={{ required: t(labels.required) }}>
-              <TextField autoFocus />
+              <TextField aria-required="true" autoFocus />
             </FormField>
 
             <Column gap="1">

@@ -6,6 +6,7 @@ import { Plus } from '@/components/icons';
 import { DialogButton } from '@/components/input/DialogButton';
 import { WebsiteTrackingCode } from './[websiteId]/settings/WebsiteTrackingCode';
 import { WebsiteAddForm } from './WebsiteAddForm';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function WebsiteAddButton({ teamId, onSave }: { teamId: string; onSave?: () => void }) {
   const { t, labels, messages } = useMessages();
@@ -16,7 +17,9 @@ export function WebsiteAddButton({ teamId, onSave }: { teamId: string; onSave?: 
   const [createdWebsite, setCreatedWebsite] = useState<{ id: string } | null>(null);
 
   const handleSave = async (website: { id: string }) => {
-    toast(t(messages.saved));
+    toast(
+      savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.website) })),
+    );
     touch('websites');
     onSave?.();
 

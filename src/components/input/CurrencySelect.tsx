@@ -10,6 +10,7 @@ export function CurrencySelect({ value, onChange }) {
   return (
     <Select
       label={t(labels.currency)}
+      listProps={{ 'aria-label': t(labels.currency) }}
       value={value}
       defaultValue={value}
       onChange={onChange}

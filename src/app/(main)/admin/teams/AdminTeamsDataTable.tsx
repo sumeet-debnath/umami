@@ -12,7 +12,7 @@ export function AdminTeamsDataTable({
   const queryResult = useTeamsQuery();
 
   return (
-    <DataGrid query={queryResult} allowSearch={true}>
+    <DataGrid itemsLabel="teams" query={queryResult} allowSearch={true}>
       {({ data }) => <AdminTeamsTable data={data} showActions={showActions} />}
     </DataGrid>
   );

@@ -25,6 +25,10 @@ vi.mock('@/components/common/MultiSelect', () => ({
 vi.mock('@/components/hooks', () => ({
   useFilters: () => ({ fields: [], operators: [] }),
   useFormat: () => ({ formatValue: (value: string) => value }),
+  useMessages: () => ({
+    t: (value: string) => value,
+    labels: { value: 'Value' },
+  }),
   useWebsiteValuesQuery: () => ({ data: [], isLoading: false }),
 }));
 vi.mock('@/components/icons', () => ({ X: () => null }));

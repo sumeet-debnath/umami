@@ -16,6 +16,7 @@ export function TypeConfirmationForm({
   error,
   onConfirm,
   onClose,
+  buttonProps,
 }: {
   confirmationValue: string;
   buttonLabel?: string;
@@ -24,6 +25,7 @@ export function TypeConfirmationForm({
   error?: string | Error;
   onConfirm?: () => void;
   onClose?: () => void;
+  buttonProps?: Record<string, string>;
 }) {
   const { t, labels, messages, getErrorMessage } = useMessages();
   if (!confirmationValue) {
@@ -46,7 +48,7 @@ export function TypeConfirmationForm({
       </FormField>
       <FormButtons>
         <Button onPress={onClose}>{t(labels.cancel)}</Button>
-        <FormSubmitButton isLoading={isLoading} variant={buttonVariant}>
+        <FormSubmitButton {...buttonProps} isLoading={isLoading} variant={buttonVariant}>
           {buttonLabel || t(labels.ok)}
         </FormSubmitButton>
       </FormButtons>

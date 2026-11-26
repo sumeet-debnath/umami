@@ -51,7 +51,9 @@ export function WebsiteData({ websiteId, onSave }: { websiteId: string; onSave?:
       {!isAdmin && (
         <ActionForm label={t(labels.transferWebsite)} description={t(messages.transferWebsite)}>
           <DialogTrigger>
-            <Button isDisabled={!canTransferWebsite}>{t(labels.transfer)}</Button>
+            <Button isDisabled={!canTransferWebsite} data-agentom-risk="sensitive">
+              {t(labels.transfer)}
+            </Button>
             <Modal>
               <Dialog title={t(labels.transferWebsite)} style={{ width: 400 }}>
                 {({ close }) => (
@@ -65,7 +67,9 @@ export function WebsiteData({ websiteId, onSave }: { websiteId: string; onSave?:
 
       <ActionForm label={t(labels.resetWebsite)} description={t(messages.resetWebsiteWarning)}>
         <DialogTrigger>
-          <Button>{t(labels.reset)}</Button>
+          <Button data-agentom-risk="destructive" data-agentom-confirmation="required">
+            {t(labels.reset)}
+          </Button>
           <Modal>
             <Dialog title={t(labels.resetWebsite)} style={{ width: 400 }}>
               {({ close }) => (
@@ -78,7 +82,12 @@ export function WebsiteData({ websiteId, onSave }: { websiteId: string; onSave?:
 
       <ActionForm label={t(labels.deleteWebsite)} description={t(messages.deleteWebsiteWarning)}>
         <DialogTrigger>
-          <Button data-test="button-delete" variant="danger">
+          <Button
+            data-test="button-delete"
+            variant="danger"
+            data-agentom-risk="destructive"
+            data-agentom-confirmation="required"
+          >
             {t(labels.delete)}
           </Button>
           <Modal>

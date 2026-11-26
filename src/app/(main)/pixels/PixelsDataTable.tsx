@@ -7,7 +7,13 @@ export function PixelsDataTable({ showActions = false }: { showActions?: boolean
   const query = usePixelsQuery({ teamId });
 
   return (
-    <DataGrid query={query} allowSearch={true} autoFocus={false} allowPaging={true}>
+    <DataGrid
+      itemsLabel="pixels"
+      query={query}
+      allowSearch={true}
+      autoFocus={false}
+      allowPaging={true}
+    >
       {({ data }) => <PixelsTable data={data} showActions={showActions} />}
     </DataGrid>
   );

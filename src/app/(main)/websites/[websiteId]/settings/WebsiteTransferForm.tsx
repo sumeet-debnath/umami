@@ -77,7 +77,10 @@ export function WebsiteTransferForm({
             </Text>
             <FormField name="teamId">
               {!isTeamWebsite && (
-                <Select>
+                <Select
+                  buttonProps={{ 'aria-label': t(labels.team) }}
+                  listProps={{ 'aria-label': t(labels.team) }}
+                >
                   {items.map(({ id, name }) => {
                     return (
                       <ListItem key={`${id}`} id={`${id}`}>
@@ -91,6 +94,7 @@ export function WebsiteTransferForm({
             <FormButtons>
               <Button onPress={onClose}>{t(labels.cancel)}</Button>
               <FormSubmitButton
+                data-agentom-risk="sensitive"
                 variant="primary"
                 isLoading={isPending}
                 isDisabled={!isTeamWebsite && !selectedTeamId}

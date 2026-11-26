@@ -134,7 +134,7 @@ export function ShareEditForm({
               </Column>
             )}
             <FormField label={t(labels.name)} name="name" rules={{ required: t(labels.required) }}>
-              <TextField autoComplete="off" autoFocus={!isEditing} />
+              <TextField aria-required="true" autoComplete="off" autoFocus={!isEditing} />
             </FormField>
             <Grid columns={{ base: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap="3">
               <FormField label={t(labels.filters)} name="allowFilter">
@@ -147,6 +147,7 @@ export function ShareEditForm({
               </FormField>
               <FormField label={t(labels.theme)} name="theme">
                 <ThemeModeSelector
+                  label={t(labels.theme)}
                   value={watch('theme')}
                   includeSystem
                   onChange={value => setValue('theme', value, { shouldDirty: true })}
@@ -175,6 +176,7 @@ export function ShareEditForm({
                 </Button>
               )}
               <FormSubmitButton
+                data-agentom-risk="sensitive"
                 variant="primary"
                 isDisabled={isPending || !hasSelection || !values.name}
               >

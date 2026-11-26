@@ -12,6 +12,7 @@ export function SegmentsDataTable({ websiteId }: { websiteId?: string }) {
 
   return (
     <DataGrid
+      itemsLabel="segments"
       query={query}
       allowSearch={true}
       autoFocus={false}

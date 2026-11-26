@@ -77,7 +77,7 @@ const Info = ({
   children: ReactNode;
 }) => {
   return (
-    <Column>
+    <Column role="group" aria-label={label}>
       <Label>{label}</Label>
       <Row alignItems="center" gap>
         {icon && <Icon>{icon}</Icon>}

@@ -153,6 +153,7 @@ export function Performance({ websiteId, startDate, endDate, unit }: Performance
           label="Percentile"
           value={selectedPercentile}
           onChange={value => setSelectedPercentile(value as 'p50' | 'p75' | 'p95')}
+          listProps={{ 'aria-label': 'Percentile' }}
         >
           {PERCENTILES.map(({ id, label }) => (
             <ListItem key={id} id={id}>
@@ -163,7 +164,12 @@ export function Performance({ websiteId, startDate, endDate, unit }: Performance
       </Grid>
       <Column gap>
         <LoadingPanel data={stats.data} isLoading={stats.isLoading} error={stats.error}>
-          <Grid columns={{ base: '1fr 1fr', lg: 'repeat(5, 1fr)' }} gap>
+          <Grid
+            columns={{ base: '1fr 1fr', lg: 'repeat(5, 1fr)' }}
+            gap
+            role="tablist"
+            aria-label={t(labels.webVitals)}
+          >
             {METRICS.map(metric => (
               <PerformanceCard
                 key={metric}
@@ -178,7 +184,7 @@ export function Performance({ websiteId, startDate, endDate, unit }: Performance
           </Grid>
         </LoadingPanel>
         <LoadingPanel data={chart.data} isLoading={chart.isLoading} error={chart.error}>
-          <Panel>
+          <Panel role="tabpanel">
             <Column gap="4" padding="4">
               <Row justifyContent="space-between" alignItems="center">
                 <Text weight="bold">{METRIC_LABELS[selectedMetric]}</Text>

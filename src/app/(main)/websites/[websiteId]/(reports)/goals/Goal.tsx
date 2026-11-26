@@ -93,6 +93,7 @@ export function Goal({
         </Row>
         <Row alignItems="center" gap="6">
           <ProgressBar
+            aria-label={`${name} ${t(labels.conversionRate)}`}
             value={data?.num || 0}
             min={0}
             max={data?.total || 1}

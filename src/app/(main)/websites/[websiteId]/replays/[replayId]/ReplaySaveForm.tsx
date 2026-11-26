@@ -42,7 +42,7 @@ export function ReplaySaveForm({
   return (
     <Form onSubmit={handleSubmit} error={getErrorMessage(error)}>
       <FormField name="name" label={t(labels.name)} rules={{ required: t(labels.required) }}>
-        <TextField autoFocus />
+        <TextField aria-required="true" autoFocus />
       </FormField>
       <FormButtons>
         <Button isDisabled={isPending} onPress={onClose}>

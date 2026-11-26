@@ -28,9 +28,18 @@ export function LinkDeleteButton({
   };
 
   return (
-    <DialogButton icon={<Trash />} title={t(labels.confirm)} variant="quiet" width="400px">
+    <DialogButton
+      data-agentom-risk="destructive"
+      data-agentom-confirmation="required"
+      icon={<Trash />}
+      aria-label={t(labels.deleteItem, { name: name })}
+      title={t(labels.confirm)}
+      variant="quiet"
+      width="400px"
+    >
       {({ close }) => (
         <ConfirmationForm
+          buttonProps={{ 'data-agentom-risk': 'destructive' }}
           message={t.rich(messages.confirmRemove, {
             target: name,
             b: chunks => <b>{chunks}</b>,

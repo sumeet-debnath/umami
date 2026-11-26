@@ -1,4 +1,5 @@
 'use client';
+import { useIsFetching } from '@tanstack/react-query';
 import { Column, Grid, Loading, Row } from '@umami/react-zen';
 import Script from 'next/script';
 import { useEffect } from 'react';
@@ -14,6 +15,7 @@ import {
 } from '@/components/hooks';
 import { TwoFactorSetupModal } from '@/components/modals/TwoFactorSetupModal';
 import { LAST_TEAM_CONFIG } from '@/lib/constants';
+import { getScreenName } from '@/lib/semantic-screen';
 import { removeItem, setItem } from '@/lib/storage';
 import { UpdateNotice } from './UpdateNotice';
 
@@ -24,6 +26,7 @@ export function App({ children }) {
   const { isLoading: isTeamLoading, error: teamError } = useTeamQuery(teamId);
   const { data: twoFactorStatus } = useTwoFactorStatusQuery(!!user && !config?.cloudMode);
   const needsTwoFactorSetup = !!(twoFactorStatus?.isRequired && !twoFactorStatus?.isEnabled);
+  const isFetching = useIsFetching() > 0;
 
   useEffect(() => {
     if (teamId) {
@@ -75,6 +78,8 @@ export function App({ children }) {
         <TopNav />
         <Column
           alignItems="center"
+          data-agentom-screen={getScreenName(pathname)}
+          data-agentom-state={isFetching ? 'loading' : 'ready'}
           aria-hidden={needsTwoFactorSetup || undefined}
           style={needsTwoFactorSetup ? { pointerEvents: 'none' } : undefined}
         >

@@ -10,9 +10,14 @@ import {
 } from '@umami/react-zen';
 import { useLoginQuery, useMessages, useUpdateQuery, useUser } from '@/components/hooks';
 import { ROLES } from '@/lib/constants';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function UserEditForm({ userId, onSave }: { userId: string; onSave?: () => void }) {
   const { t, labels, messages, getErrorMessage } = useMessages();
+  const roleTriggerProps = {
+    'data-agentom-risk': 'sensitive',
+    'aria-required': true,
+  };
   const user = useUser();
   const { user: login } = useLoginQuery();
 
@@ -21,7 +26,9 @@ export function UserEditForm({ userId, onSave }: { userId: string; onSave?: () =
   const handleSubmit = async (data: any) => {
     await mutateAsync(data, {
       onSuccess: async () => {
-        toast(t(messages.saved));
+        toast(
+          savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.user) })),
+        );
         touch('users');
         touch(`user:${user.id}`);
         onSave?.();
@@ -46,7 +53,11 @@ export function UserEditForm({ userId, onSave }: { userId: string; onSave?: () =
 
       {user.id !== login.id && (
         <FormField name="role" label={t(labels.role)} rules={{ required: t(labels.required) }}>
-          <Select defaultValue={user.role}>
+          <Select
+            defaultValue={user.role}
+            buttonProps={roleTriggerProps}
+            listProps={{ 'aria-label': t(labels.role) }}
+          >
             <ListItem id={ROLES.viewOnly} data-test="dropdown-item-viewOnly">
               {t(labels.viewOnly)}
             </ListItem>
@@ -60,7 +71,7 @@ export function UserEditForm({ userId, onSave }: { userId: string; onSave?: () =
         </FormField>
       )}
       <FormButtons>
-        <FormSubmitButton data-test="button-submit" variant="primary">
+        <FormSubmitButton data-test="button-submit" variant="primary" data-agentom-risk="sensitive">
           {t(labels.save)}
         </FormSubmitButton>
       </FormButtons>

@@ -121,7 +121,7 @@ export function FieldFilters({
             if (!groupFields || groupFields.length === 0) return null;
 
             return (
-              <ListSection key={groupKey} title={label}>
+              <ListSection key={groupKey} title={label} aria-label={label}>
                 {groupFields.map(field => {
                   return (
                     <ListItem
@@ -146,7 +146,11 @@ export function FieldFilters({
               <Select
                 value={match}
                 onChange={value => onMatchChange(value as string)}
-                buttonProps={{ style: { width: 150 } }}
+                buttonProps={{
+                  style: { width: 150 },
+                  'aria-label': t(labels.match),
+                }}
+                listProps={{ 'aria-label': t(labels.match) }}
               >
                 <ListItem id="all">{t(labels.matchAll)}</ListItem>
                 <ListItem id="any">{t(labels.matchAny)}</ListItem>

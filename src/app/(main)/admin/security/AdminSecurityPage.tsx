@@ -38,6 +38,8 @@ export function AdminSecurityPage() {
 
           <Row alignItems="center" gap="3">
             <Switch
+              data-agentom-risk="sensitive"
+              aria-label={t(labels.twoFactorRequireGlobal)}
               isSelected={isGlobalRequired}
               isDisabled={!isConfigured && !isGlobalRequired}
               onChange={handleToggle}

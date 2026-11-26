@@ -58,7 +58,8 @@ export function UnitFilter() {
         value={selectedUnit}
         onChange={value => handleChange(value as string)}
         popoverProps={{ side: 'bottom', align: 'end' }}
-        buttonProps={{ style: { width: 100 } }}
+        buttonProps={{ style: { width: 100 }, 'aria-label': 'Unit' }}
+        listProps={{ 'aria-label': 'Unit' }}
       >
         {options.map(({ id, label }) => (
           <ListItem key={id} id={id}>

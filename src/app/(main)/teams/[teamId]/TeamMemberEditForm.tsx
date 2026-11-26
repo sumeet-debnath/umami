@@ -38,7 +38,10 @@ export function TeamMemberEditForm({
   return (
     <Form onSubmit={handleSubmit} error={getErrorMessage(error)} defaultValues={{ role }}>
       <FormField name="role" rules={{ required: t(labels.required) }} label={t(labels.role)}>
-        <Select>
+        <Select
+          buttonProps={{ 'aria-required': true }}
+          listProps={{ 'aria-label': t(labels.role) }}
+        >
           <ListItem id={ROLES.teamManager}>{t(labels.manager)}</ListItem>
           <ListItem id={ROLES.teamMember}>{t(labels.member)}</ListItem>
           <ListItem id={ROLES.teamViewOnly}>{t(labels.viewOnly)}</ListItem>

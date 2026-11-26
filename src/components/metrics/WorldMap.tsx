@@ -1,6 +1,6 @@
 import { Box, Column, type ColumnProps, FloatingTooltip, Text, useTheme } from '@umami/react-zen';
 import { colord } from 'colord';
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps';
 import {
   useCountryNames,
@@ -28,6 +28,7 @@ export function WorldMap({ websiteId, data, ...props }: WorldMapProps) {
   const visitorsLabel = t(labels.visitors).toLocaleLowerCase(locale);
   const unknownLabel = t(labels.unknown);
 
+  const summaryId = useId();
   const { data: mapData } = useWebsiteMetricsQuery(websiteId, {
     type: 'country',
   });
@@ -36,6 +37,15 @@ export function WorldMap({ websiteId, data, ...props }: WorldMapProps) {
     () => (data || mapData ? percentFilter((data || mapData) as any[]) : []),
     [data, mapData],
   );
+
+  const summary = [...(metrics ?? [])]
+    .sort((a, b) => (b.y ?? 0) - (a.y ?? 0))
+    .slice(0, 5)
+    .map(
+      ({ x, y }) =>
+        `${countryNames[x] || unknownLabel}: ${formatLongNumber(y || 0)} ${visitorsLabel}`,
+    )
+    .join(', ');
 
   const getFillColor = (code: string) => {
     if (code === 'AQ') return;
@@ -70,8 +80,16 @@ export function WorldMap({ websiteId, data, ...props }: WorldMapProps) {
       data-tip=""
       data-for="world-map-tooltip"
       style={{ margin: 'auto 0', overflow: 'hidden' }}
+      role="figure"
+      aria-label={t(labels.countries)}
+      aria-describedby={summary ? summaryId : undefined}
     >
-      <ComposableMap projection="geoMercator">
+      {summary && (
+        <span id={summaryId} hidden>
+          {summary}
+        </span>
+      )}
+      <ComposableMap projection="geoMercator" data-agentom-ignore>
         <ZoomableGroup zoom={0.8} minZoom={0.7} center={[0, 40]}>
           <Geographies geography={`${process.env.basePath || ''}${MAP_FILE}`}>
             {({ geographies }) => {

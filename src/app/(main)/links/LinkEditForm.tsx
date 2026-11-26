@@ -18,6 +18,7 @@ import { RefreshCw } from '@/components/icons';
 import { LINKS_URL } from '@/lib/constants';
 import { getRandomChars } from '@/lib/generate';
 import { isValidUrl } from '@/lib/url';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 const generateId = () => getRandomChars(9);
 
@@ -50,7 +51,9 @@ export function LinkEditForm({
   const handleSubmit = async (data: any) => {
     await mutateAsync(data, {
       onSuccess: async () => {
-        toast(t(messages.saved));
+        toast(
+          savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.link) })),
+        );
         touch('links');
         touch(`link:${linkId}`);
         onSave?.();
@@ -82,7 +85,7 @@ export function LinkEditForm({
         return (
           <>
             <FormField label={t(labels.name)} name="name" rules={{ required: t(labels.required) }}>
-              <TextField autoComplete="off" autoFocus />
+              <TextField aria-required="true" autoComplete="off" autoFocus />
             </FormField>
 
             <FormField
@@ -90,7 +93,11 @@ export function LinkEditForm({
               name="url"
               rules={{ required: t(labels.required), validate: checkUrl }}
             >
-              <TextField placeholder="https://example.com" autoComplete="off" />
+              <TextField
+                aria-required="true"
+                placeholder="https://example.com"
+                autoComplete="off"
+              />
             </FormField>
 
             {cloudMode ? (
@@ -112,11 +119,12 @@ export function LinkEditForm({
                     required: t(labels.required),
                   }}
                 >
-                  <TextField autoComplete="off" />
+                  <TextField aria-required="true" autoComplete="off" />
                 </FormField>
                 <Button
                   variant="quiet"
                   onPress={() => setValue('slug', generateId(), { shouldDirty: true })}
+                  aria-label={t(labels.newSlug)}
                 >
                   <Icon>
                     <RefreshCw />
@@ -129,6 +137,7 @@ export function LinkEditForm({
               <Label>{t(labels.link)}</Label>
               <Row alignItems="center" gap>
                 <TextField
+                  aria-label={t(labels.link)}
                   value={`${hostUrl}/${slug}`}
                   autoComplete="off"
                   isReadOnly

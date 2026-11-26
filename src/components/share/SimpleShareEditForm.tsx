@@ -97,7 +97,7 @@ export function SimpleShareEditForm({
             <TextField value={getUrl(share?.slug || '')} isReadOnly allowCopy />
           </Column>
           <FormField label={t(labels.name)} name="name" rules={{ required: t(labels.required) }}>
-            <TextField autoComplete="off" autoFocus />
+            <TextField aria-required="true" autoComplete="off" autoFocus />
           </FormField>
           <Row gap="6">
             <FormField label={t(labels.filters)} name="allowFilter">

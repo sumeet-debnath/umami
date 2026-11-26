@@ -7,7 +7,13 @@ export function LinksDataTable({ showActions = false }: { showActions?: boolean 
   const query = useLinksQuery({ teamId });
 
   return (
-    <DataGrid query={query} allowSearch={true} autoFocus={false} allowPaging={true}>
+    <DataGrid
+      itemsLabel="links"
+      query={query}
+      allowSearch={true}
+      autoFocus={false}
+      allowPaging={true}
+    >
       {({ data }) => <LinksTable data={data} showActions={showActions} />}
     </DataGrid>
   );

@@ -123,12 +123,19 @@ export function RealtimeLog({ data }: { data: any }) {
     }
   };
 
-  const TableRow = ({ index, style, logs }: RowComponentProps<{ logs: any[] }>) => {
+  const TableRow = ({ index, style, logs, ariaAttributes }: RowComponentProps<{ logs: any[] }>) => {
     const row = logs[index];
     return (
-      <Row alignItems="center" style={{ ...style, minWidth: 0 }} gap>
+      <Row alignItems="center" style={{ ...style, minWidth: 0 }} gap {...ariaAttributes}>
         <Row minWidth="30px">
-          <Link href={updateParams({ session: row.sessionId })}>
+          <Link
+            href={updateParams({ session: row.sessionId })}
+            aria-label={t(messages.sessionFrom, {
+              country: countryNames[row.country] || t(labels.unknown),
+              browser: BROWSERS[row.browser] || formatValue(row.browser, 'browser'),
+              os: OS_NAMES[row.os] || row.os,
+            })}
+          >
             <Avatar seed={row.sessionId} size={32} />
           </Link>
         </Row>

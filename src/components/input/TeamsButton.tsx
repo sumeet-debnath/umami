@@ -53,7 +53,7 @@ export function TeamsButton() {
 
   return (
     <MenuTrigger>
-      <Button variant="quiet">
+      <Button variant="quiet" aria-label={t(labels.teamSwitcher, { name: label })}>
         <Row
           alignItems="center"
           position="relative"
@@ -85,7 +85,12 @@ export function TeamsButton() {
             </MenuItem>
           ))}
           <MenuSeparator />
-          <MenuItem id="manage-teams" onAction={() => handleNavigate(getUrl('/settings/teams'))}>
+          <MenuItem
+            id="manage-teams"
+            role="menuitem"
+            aria-checked={undefined}
+            onAction={() => handleNavigate(getUrl('/settings/teams'))}
+          >
             <Row alignItems="center" justifyContent="space-between" gap width="100%">
               <Text align="center">Manage teams</Text>
               <Icon>

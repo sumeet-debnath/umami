@@ -28,6 +28,7 @@ export function WebsiteShareForm({ websiteId }: WebsiteShareFormProps) {
             title={t(labels.share)}
             variant="primary"
             width="600px"
+            data-agentom-risk="sensitive"
           >
             {({ close }) => <ShareEditForm websiteId={websiteId} onClose={close} />}
           </DialogButton>

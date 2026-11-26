@@ -5,10 +5,14 @@ import { Monitor, Moon, Sun } from '@/components/icons';
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 export function ThemeModeSelector({
+  id,
+  label,
   value,
   onChange,
   includeSystem = false,
 }: {
+  id?: string;
+  label?: string;
   value?: ThemeMode;
   onChange: (value: ThemeMode) => void;
   includeSystem?: boolean;
@@ -20,13 +24,14 @@ export function ThemeModeSelector({
   ];
 
   return (
-    <Row gap>
+    <Row gap id={id} role="group" aria-label={label}>
       {options.map(({ id, icon, label }) => (
         <Button
           key={id}
           variant={value === id ? 'primary' : undefined}
           onPress={() => onChange(id)}
           aria-label={label}
+          aria-pressed={value === id}
         >
           <Icon>{icon}</Icon>
         </Button>

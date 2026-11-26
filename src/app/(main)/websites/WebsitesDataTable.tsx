@@ -30,7 +30,7 @@ export function WebsitesDataTable({
   );
 
   return (
-    <DataGrid query={queryResult} allowSearch allowPaging>
+    <DataGrid itemsLabel="websites" query={queryResult} allowSearch allowPaging>
       {({ data }) => (
         <WebsitesTable data={data} showActions={showActions} renderLink={renderLink} />
       )}

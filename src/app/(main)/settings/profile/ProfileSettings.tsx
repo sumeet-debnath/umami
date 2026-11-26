@@ -30,16 +30,16 @@ export function ProfileSettings() {
 
   return (
     <Column gap="6">
-      <Column>
+      <Column role="group" aria-label={t(labels.username)}>
         <Label>{t(labels.username)}</Label>
         {username}
       </Column>
-      <Column>
+      <Column role="group" aria-label={t(labels.role)}>
         <Label>{t(labels.role)}</Label>
         {renderRole(role)}
       </Column>
       {!cloudMode && (
-        <Column>
+        <Column role="group" aria-label={t(labels.password)}>
           <Label>{t(labels.password)}</Label>
           <Row>
             <PasswordChangeButton />

@@ -12,6 +12,7 @@ import {
 import { startOfDay } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { useLocale, useMessages, useTimezone, useUpdateQuery } from '@/components/hooks';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export interface Annotation {
   id: string;
@@ -55,7 +56,9 @@ export function AnnotationEditForm({
       },
       {
         onSuccess: async () => {
-          toast(t(messages.saved));
+          toast(
+            savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.note) })),
+          );
           touch('annotations');
           onSave?.();
           onClose?.();
@@ -77,7 +80,12 @@ export function AnnotationEditForm({
         return (
           <Column gap>
             <DatePicker
-              triggerProps={{ style: { width: '100%', maxWidth: 280 } }}
+              triggerProps={{
+                style: { width: '100%', maxWidth: 280 },
+                'aria-label': date
+                  ? `${new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(date)}, ${t(labels.date)}`
+                  : t(labels.date),
+              }}
               label={t(labels.date)}
               value={date}
               locale={locale}
@@ -97,7 +105,7 @@ export function AnnotationEditForm({
                   maxLength: { value: 500, message: t(messages.maxLength, { n: '500' }) },
                 }}
               >
-                <TextField asTextArea autoFocus style={{ minHeight: 128 }} />
+                <TextField aria-required="true" asTextArea autoFocus style={{ minHeight: 128 }} />
               </FormField>
               <Text
                 size="sm"

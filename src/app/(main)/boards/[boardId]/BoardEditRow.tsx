@@ -88,6 +88,9 @@ export function BoardEditRow({
     <Box
       position="relative"
       height="100%"
+      data-agentom-reveals={
+        canEdit ? 'Move row up, Add column, Remove row, Move row down' : undefined
+      }
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
@@ -153,6 +156,7 @@ export function BoardEditRow({
               variant="outline"
               onPress={() => onMoveUp(rowId)}
               isDisabled={moveUpDisabled}
+              aria-label="Move row up"
               style={moveUpDisabled ? { pointerEvents: 'none' } : undefined}
             >
               <Icon rotate={180} color={moveUpDisabled ? 'muted' : undefined}>
@@ -166,6 +170,7 @@ export function BoardEditRow({
               variant="outline"
               onPress={handleAddColumn}
               isDisabled={addColumnDisabled}
+              aria-label="Add column"
               style={addColumnDisabled ? { pointerEvents: 'none' } : undefined}
             >
               <Icon color={addColumnDisabled ? 'muted' : undefined}>
@@ -175,7 +180,7 @@ export function BoardEditRow({
             <Tooltip placement="left">Add column</Tooltip>
           </TooltipTrigger>
           <TooltipTrigger delay={0}>
-            <Button variant="outline" onPress={() => onRemove(rowId)}>
+            <Button variant="outline" onPress={() => onRemove(rowId)} aria-label="Remove row">
               <Icon>
                 <Minus />
               </Icon>
@@ -187,6 +192,7 @@ export function BoardEditRow({
               variant="outline"
               onPress={() => onMoveDown(rowId)}
               isDisabled={moveDownDisabled}
+              aria-label="Move row down"
               style={moveDownDisabled ? { pointerEvents: 'none' } : undefined}
             >
               <Icon color={moveDownDisabled ? 'muted' : undefined}>

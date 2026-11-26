@@ -3,6 +3,7 @@ import { useMessages, useModified } from '@/components/hooks';
 import { Edit } from '@/components/icons';
 import { DialogButton } from '@/components/input/DialogButton';
 import { TeamMemberEditForm } from './TeamMemberEditForm';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function TeamMemberEditButton({
   teamId,
@@ -21,7 +22,7 @@ export function TeamMemberEditButton({
 
   const handleSave = () => {
     touch('teams:members');
-    toast(t(messages.saved));
+    toast(savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.member) })));
     onSave?.();
   };
 

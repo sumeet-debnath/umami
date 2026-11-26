@@ -7,7 +7,7 @@ export function SessionsDataTable({ websiteId }: { websiteId: string }) {
   const { updateParams } = useNavigation();
 
   return (
-    <DataGrid query={queryResult} allowPaging allowSearch>
+    <DataGrid itemsLabel="sessions" query={queryResult} allowPaging allowSearch>
       {({ data }) => (
         <SessionsTable
           data={data}

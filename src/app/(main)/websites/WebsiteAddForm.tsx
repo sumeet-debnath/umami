@@ -34,7 +34,7 @@ export function WebsiteAddForm({
         name="name"
         rules={{ required: t(labels.required) }}
       >
-        <TextField autoComplete="off" />
+        <TextField aria-required="true" autoComplete="off" />
       </FormField>
 
       <FormField
@@ -46,7 +46,7 @@ export function WebsiteAddForm({
           pattern: { value: DOMAIN_REGEX, message: t(messages.invalidDomain) },
         }}
       >
-        <TextField autoComplete="off" />
+        <TextField aria-required="true" autoComplete="off" />
       </FormField>
       <Row justifyContent="flex-end" paddingTop="3" gap="3">
         {onClose && (

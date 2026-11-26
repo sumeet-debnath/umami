@@ -1,7 +1,7 @@
 import { Dialog, Modal } from '@umami/react-zen';
 import { WebsiteExpandedView } from '@/app/(main)/websites/[websiteId]/WebsiteExpandedView';
 import { ControlledDialog } from '@/components/common/ControlledDialog';
-import { useMobile, useNavigation } from '@/components/hooks';
+import { useMessages, useMobile, useNavigation } from '@/components/hooks';
 
 export function ExpandedViewModal({
   websiteId,
@@ -16,6 +16,7 @@ export function ExpandedViewModal({
     updateParams,
   } = useNavigation();
   const { isMobile } = useMobile();
+  const { t, labels } = useMessages();
 
   const handleClose = (close: () => void) => {
     router.push(updateParams({ view: undefined }));
@@ -32,6 +33,7 @@ export function ExpandedViewModal({
     <ControlledDialog>
       <Modal isOpen={!!view} onOpenChange={handleOpenChange}>
         <Dialog
+          aria-label={view ? (view === 'fullPath' ? t(labels.url) : t(labels[view])) : undefined}
           style={{
             maxWidth: 1320,
             width: '100vw',

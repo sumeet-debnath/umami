@@ -58,6 +58,8 @@ export function UserTwoFactorSettings({ userId }: { userId: string }) {
   const toggle = (
     <Row alignItems="center" gap="3">
       <Switch
+        data-agentom-risk="sensitive"
+        aria-label={t(labels.twoFactorRequireUser)}
         isSelected={isGlobalRequired || twoFactorRequired}
         isDisabled={isToggleDisabled}
         onChange={handleToggle}

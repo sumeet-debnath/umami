@@ -585,11 +585,13 @@ function ScreenWidthSelect({
             minHeight: 36,
             minWidth: 132,
           },
+          'aria-label': 'Screen width',
         }}
         listProps={{
           style: {
             width: 176,
           },
+          'aria-label': 'Screen width',
         }}
       >
         {SCREEN_WIDTH_BUCKETS.map(width => {

@@ -1,9 +1,10 @@
 import { ListItem, Row, Select } from '@umami/react-zen';
-import { useLocale } from '@/components/hooks';
+import { useLocale, useMessages } from '@/components/hooks';
 import { formatDate } from '@/lib/date';
 
 export function MonthSelect({ date = new Date(), onChange }) {
   const { locale } = useLocale();
+  const { t, labels } = useMessages();
   const month = date.getMonth();
   const year = date.getFullYear();
   const currentYear = new Date().getFullYear();
@@ -24,7 +25,12 @@ export function MonthSelect({ date = new Date(), onChange }) {
 
   return (
     <Row gap>
-      <Select value={month} onChange={value => handleMonthChange(value as number)}>
+      <Select
+        value={month}
+        onChange={value => handleMonthChange(value as number)}
+        buttonProps={{ 'aria-label': t(labels.month) }}
+        listProps={{ 'aria-label': t(labels.month) }}
+      >
         {months.map(m => {
           return (
             <ListItem id={m} key={m}>
@@ -33,7 +39,12 @@ export function MonthSelect({ date = new Date(), onChange }) {
           );
         })}
       </Select>
-      <Select value={year} onChange={value => handleYearChange(value as number)}>
+      <Select
+        value={year}
+        onChange={value => handleYearChange(value as number)}
+        buttonProps={{ 'aria-label': 'Year' }}
+        listProps={{ 'aria-label': 'Year' }}
+      >
         {years.map(y => {
           return (
             <ListItem id={y} key={y}>

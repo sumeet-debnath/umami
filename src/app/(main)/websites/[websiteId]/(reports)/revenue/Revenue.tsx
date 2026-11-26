@@ -94,7 +94,11 @@ export function Revenue({ websiteId, startDate, endDate, unit }: RevenueProps) {
                   value={revenueChartMode}
                   onChange={value => handleRevenueChartModeChange(value as RevenueChartMode)}
                   popoverProps={{ side: 'bottom', align: 'end' }}
-                  buttonProps={{ style: { width: 140 } }}
+                  buttonProps={{
+                    style: { width: 140 },
+                    'aria-label': t(labels.chart),
+                  }}
+                  listProps={{ 'aria-label': t(labels.chart) }}
                 >
                   <ListItem id="period">{t(labels.period)}</ListItem>
                   <ListItem id="cumulative">{t(labels.cumulative)}</ListItem>

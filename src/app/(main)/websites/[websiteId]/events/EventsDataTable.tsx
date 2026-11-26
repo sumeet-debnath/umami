@@ -36,6 +36,7 @@ export function EventsDataTable({
 
   return (
     <DataGrid
+      itemsLabel="events"
       query={query}
       allowSearch={true}
       autoFocus={false}

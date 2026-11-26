@@ -76,7 +76,7 @@ function BrowserOsMetricLabel({
       type={type}
       value={label}
       label={formatValue(label, type)}
-      icon={<TypeIcon type={type} value={label} />}
+      icon={<TypeIcon type={type} value={label} decorative />}
     />
   );
 }
@@ -172,7 +172,7 @@ function DeviceMetricLabel({ data }: Pick<MetricLabelProps, 'data'>) {
       type="device"
       value={labels[label] && label}
       label={formatValue(label, 'device')}
-      icon={<TypeIcon type="device" value={label} />}
+      icon={<TypeIcon type="device" value={label} decorative />}
     />
   );
 }

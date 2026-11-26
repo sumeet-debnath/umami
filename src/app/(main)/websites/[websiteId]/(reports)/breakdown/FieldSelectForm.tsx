@@ -45,7 +45,7 @@ export function FieldSelectForm({
           {groupLabels.map(({ key: groupKey, label }) => {
             const groupFields = groupedFields[groupKey];
             return (
-              <ListSection key={groupKey} title={label}>
+              <ListSection key={groupKey} title={label} aria-label={label}>
                 {groupFields.map(field => (
                   <ListItem key={field.name} id={field.name}>
                     {field.filterLabel}

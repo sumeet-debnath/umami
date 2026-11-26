@@ -35,7 +35,11 @@ export function PasswordEditForm({ onSave, onClose }) {
         name="currentPassword"
         rules={{ required: 'Required' }}
       >
-        <PasswordField autoComplete="current-password" />
+        <PasswordField
+          aria-required="true"
+          autoComplete="current-password"
+          aria-label={t(labels.currentPassword)}
+        />
       </FormField>
       <FormField
         name="newPassword"
@@ -45,7 +49,11 @@ export function PasswordEditForm({ onSave, onClose }) {
           minLength: { value: 8, message: t(messages.minPasswordLength, { n: '8' }) },
         }}
       >
-        <PasswordField autoComplete="new-password" />
+        <PasswordField
+          aria-required="true"
+          autoComplete="new-password"
+          aria-label={t(labels.newPassword)}
+        />
       </FormField>
       <FormField
         name="confirmPassword"
@@ -56,7 +64,11 @@ export function PasswordEditForm({ onSave, onClose }) {
           validate: samePassword,
         }}
       >
-        <PasswordField autoComplete="new-password" />
+        <PasswordField
+          aria-required="true"
+          autoComplete="new-password"
+          aria-label={t(labels.confirmPassword)}
+        />
       </FormField>
       <FormButtons>
         <Button onPress={onClose}>{t(labels.cancel)}</Button>

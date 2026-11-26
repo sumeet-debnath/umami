@@ -5,10 +5,13 @@ export function TypeIcon({
   type,
   value,
   children,
+  decorative,
 }: {
   type: 'browser' | 'country' | 'device' | 'os';
   value: string;
   children?: ReactNode;
+  /** the value is said beside the icon: the icon says nothing more ("Chrome", not "Chrome Chrome") */
+  decorative?: boolean;
 }) {
   const iconValue = type === 'browser' && value === 'browser' ? 'unknown' : value;
 
@@ -21,7 +24,7 @@ export function TypeIcon({
         onError={e => {
           e.currentTarget.src = `${process.env.basePath || ''}/images/${type}/unknown.png`;
         }}
-        alt={value}
+        alt={decorative ? '' : value}
         width={type === 'country' ? undefined : 16}
         height={type === 'country' ? undefined : 16}
       />

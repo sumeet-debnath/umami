@@ -11,8 +11,10 @@ vi.mock('@/components/hooks', () => ({
   useLocale: () => ({ locale: 'en-US', saveLocale: vi.fn() }),
   useLoginQuery: () => ({ user: { username: 'admin', isAdmin: false } }),
   useMessages: () => ({
-    t: (value: string) => value,
+    t: (value: string, values?: Record<string, unknown>) =>
+      String(value ?? '').replace(/\{(\w+)\}/g, (_, key) => String(values?.[key] ?? '')),
     labels: {
+      accountMenu: 'Account: {name}',
       admin: 'Admin',
       documentation: 'Documentation',
       language: 'Language',
@@ -27,7 +29,7 @@ vi.mock('@/components/hooks', () => ({
 
 test('renders the expanded sidebar control at full width and opens its menu', async () => {
   const { user } = render(<UserButton />);
-  const button = screen.getByRole('button', { name: 'admin' });
+  const button = screen.getByRole('button', { name: 'Account: admin' });
 
   expect(button).toHaveStyle({ width: '100%' });
 
@@ -39,7 +41,7 @@ test('renders the expanded sidebar control at full width and opens its menu', as
 
 test('keeps the collapsed sidebar control accessible and interactive', async () => {
   const { user } = render(<UserButton showText={false} />);
-  const button = screen.getByRole('button', { name: 'admin' });
+  const button = screen.getByRole('button', { name: 'Account: admin' });
 
   button.focus();
   await user.keyboard('{Enter}');
@@ -49,7 +51,7 @@ test('keeps the collapsed sidebar control accessible and interactive', async () 
 
 test('closes the menu after selecting settings', async () => {
   const { user } = render(<UserButton />);
-  const button = screen.getByRole('button', { name: 'admin' });
+  const button = screen.getByRole('button', { name: 'Account: admin' });
 
   button.focus();
   await user.keyboard('{Enter}');

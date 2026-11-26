@@ -30,7 +30,11 @@ export function TimezoneSetting() {
         onSearch={setSearch}
         onOpenChange={handleOpen}
         maxHeight={480}
-        buttonProps={{ style: { minWidth: '250px' } }}
+        buttonProps={{
+          style: { minWidth: '250px' },
+          'aria-label': t(labels.timezone),
+        }}
+        listProps={{ 'aria-label': t(labels.timezone) }}
       >
         {items.map((item: any) => (
           <ListItem key={item} id={item}>
@@ -39,7 +43,9 @@ export function TimezoneSetting() {
         ))}
         {!items.length && <ListItem></ListItem>}
       </Select>
-      <Button onPress={handleReset}>{t(labels.reset)}</Button>
+      <Button onPress={handleReset} aria-label={t(labels.resetItem, { name: t(labels.timezone) })}>
+        {t(labels.reset)}
+      </Button>
     </Row>
   );
 }

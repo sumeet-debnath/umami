@@ -30,6 +30,7 @@ export function AttributionPage({ websiteId }: { websiteId: string }) {
             value={model}
             defaultValue={model}
             onChange={value => setModel(value as string)}
+            listProps={{ 'aria-label': t(labels.model) }}
           >
             <ListItem id="first-click">{t(labels.firstClick)}</ListItem>
             <ListItem id="last-click">{t(labels.lastClick)}</ListItem>
@@ -41,6 +42,7 @@ export function AttributionPage({ websiteId }: { websiteId: string }) {
             value={type}
             defaultValue={type}
             onChange={handleTypeChange}
+            listProps={{ 'aria-label': t(labels.type) }}
           >
             <ListItem id="path">{t(labels.viewedPage)}</ListItem>
             <ListItem id="event">{t(labels.triggeredEvent)}</ListItem>

@@ -64,6 +64,7 @@ export function BoardSelect({
       onOpenChange={handleOpenChange}
       renderValue={renderValue}
       buttonProps={{
+        'aria-label': 'Board',
         ...buttonProps,
         style: {
           minHeight: 40,
@@ -74,6 +75,7 @@ export function BoardSelect({
       }}
       maxHeight={480}
       listProps={{
+        'aria-label': 'Board',
         ...listProps,
         renderEmptyState:
           listProps?.renderEmptyState || (() => <Empty message={t(messages.noResultsFound)} />),

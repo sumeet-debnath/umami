@@ -17,6 +17,7 @@ import {
   type ReactNode,
   useCallback,
   useEffect,
+  useId,
   useState,
 } from 'react';
 import { Empty } from '@/components/common/Empty';
@@ -39,6 +40,7 @@ export interface DataGridProps {
   autoFocus?: boolean;
   renderActions?: () => ReactNode;
   renderEmpty?: () => ReactNode;
+  itemsLabel?: string;
   children: ReactNode | ((data: any) => ReactNode);
 }
 
@@ -50,9 +52,11 @@ export function DataGrid({
   autoFocus,
   renderActions,
   renderEmpty = () => <Empty />,
+  itemsLabel,
   children,
 }: DataGridProps) {
-  const { t, labels } = useMessages();
+  const { t, labels, messages } = useMessages();
+  const sliceId = useId();
   const { data, error, isLoading, isFetching } = query;
   const { router, updateParams, query: queryParams } = useNavigation();
   const [search, setSearch] = useState(queryParams?.search || data?.search || '');
@@ -104,9 +108,36 @@ export function DataGrid({
 
   const child = data ? (typeof children === 'function' ? children(data) : children) : null;
 
+  const orderBy = queryParams?.orderBy ?? data?.orderBy;
+  const sortDescending = queryParams?.sortDescending ?? data?.sortDescending;
+  const pages = data?.pageSize ? Math.max(1, Math.ceil(data.count / data.pageSize)) : 1;
+  const first = data?.count ? (data.page - 1) * data.pageSize + 1 : 0;
+  const last = data ? Math.min(data.page * data.pageSize, data.count) : 0;
+  const slice =
+    data && itemsLabel
+      ? t(messages.tableSlice, {
+          items: itemsLabel,
+          search: data.search || queryParams?.search || 'none',
+          sort: orderBy
+            ? `${orderBy}, ${String(sortDescending) === 'true' ? 'descending' : 'ascending'}`
+            : 'none',
+          page: data.page,
+          pages,
+          first,
+          last,
+          count: data.count,
+        })
+      : undefined;
+
   const viewToggleButton = (
     <TooltipTrigger delay={0}>
-      <Button variant="zero" onPress={handleToggleDisplayMode}>
+      <Button
+        variant="zero"
+        onPress={handleToggleDisplayMode}
+        aria-label={
+          displayMode === 'cards' ? t(labels.switchToTableView) : t(labels.switchToCardView)
+        }
+      >
         <Icon>{displayMode === 'cards' ? <Table2 /> : <LayoutGrid />}</Icon>
       </Button>
       <Tooltip>
@@ -128,6 +159,7 @@ export function DataGrid({
             autoFocus={autoFocus}
             placeholder={t(labels.search)}
             className="w-full max-w-md"
+            aria-label={itemsLabel ? `${t(labels.search)} ${itemsLabel}` : undefined}
           />
         )}
         <Row
@@ -154,9 +186,17 @@ export function DataGrid({
               overflowX: 'auto',
             }}
           >
+            {slice && (
+              <span id={sliceId} hidden>
+                {slice}
+              </span>
+            )}
             <Column>
               {isValidElement(child)
-                ? cloneElement(child as ReactElement<any>, { displayMode })
+                ? cloneElement(child as ReactElement<any>, {
+                    displayMode,
+                    ...(slice ? { 'aria-label': itemsLabel, 'aria-describedby': sliceId } : {}),
+                  })
                 : child}
             </Column>
           </div>

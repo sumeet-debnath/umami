@@ -116,7 +116,11 @@ export function EventProperties({ websiteId }: { websiteId: string }) {
                   onOpenChange={handleEventOpenChange}
                   placeholder={t(labels.selectEvent)}
                   maxHeight={400}
-                  buttonProps={{ style: { minWidth: 0, maxWidth: '100%', overflow: 'hidden' } }}
+                  buttonProps={{
+                    style: { minWidth: 0, maxWidth: '100%', overflow: 'hidden' },
+                    'aria-label': t(labels.event),
+                  }}
+                  listProps={{ 'aria-label': t(labels.event) }}
                   renderValue={({ defaultChildren }) => (
                     <span style={selectValueStyle}>{defaultChildren}</span>
                   )}
@@ -131,6 +135,7 @@ export function EventProperties({ websiteId }: { websiteId: string }) {
               <Column gap="1" style={{ minWidth: 0 }}>
                 <Label>{t(labels.property)}</Label>
                 <ComboBox
+                  inputProps={{ 'aria-label': t(labels.property) }}
                   inputValue={propertyName}
                   onInputValueChange={setPropertyName}
                   isDisabled={!eventName}

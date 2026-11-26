@@ -18,7 +18,7 @@ export function TeamsDataTable() {
   };
 
   return (
-    <DataGrid query={query}>
+    <DataGrid itemsLabel="teams" query={query}>
       {({ data }) => {
         return <TeamsTable data={data} renderLink={renderLink} />;
       }}

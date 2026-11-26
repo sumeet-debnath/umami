@@ -38,6 +38,17 @@ export function useNavigation() {
     [teamId, queryParams],
   );
 
+  const isCurrentHref = (href: string) => {
+    const url = new URL(href, 'http://localhost');
+    const here = new URLSearchParams(searchParamsString);
+    const there = url.searchParams;
+    return (
+      url.pathname === pathname &&
+      [...there.keys()].length === [...here.keys()].length &&
+      [...there.entries()].every(([k, v]) => here.get(k) === v)
+    );
+  };
+
   return {
     router,
     pathname,
@@ -51,5 +62,6 @@ export function useNavigation() {
     updateParams,
     replaceParams,
     renderUrl,
+    isCurrentHref,
   };
 }

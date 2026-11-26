@@ -47,7 +47,7 @@ export function AdminNav({ onItemClick }: { onItemClick?: () => void }) {
 
   return (
     <Column gap="2">
-      <Link href={renderUrl('/websites', false)} role="button" onClick={onItemClick}>
+      <Link href={renderUrl('/websites', false)} onClick={onItemClick}>
         <TooltipTrigger delay={0}>
           <Row
             tabIndex={0}

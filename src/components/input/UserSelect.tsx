@@ -10,7 +10,7 @@ export function UserSelect({
 }: {
   teamId?: string;
 } & SelectProps) {
-  const { t, messages } = useMessages();
+  const { t, labels, messages } = useMessages();
   const { data: users, isLoading: usersLoading } = useUsersQuery();
   const { data: teamMembers, isLoading: teamMembersLoading } = useTeamMembersQuery(teamId);
   const [username, setUsername] = useState<string>();
@@ -52,6 +52,7 @@ export function UserSelect({
       onOpenChange={handleOpenChange}
       maxHeight={480}
       listProps={{
+        'aria-label': t(labels.user),
         renderEmptyState: () => <Empty message={t(messages.noResultsFound)} />,
       }}
     >

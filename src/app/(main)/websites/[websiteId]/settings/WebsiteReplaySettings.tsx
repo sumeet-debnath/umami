@@ -16,6 +16,7 @@ import { EmptyPlaceholder } from '@/components/common/EmptyPlaceholder';
 import { useMessages, useSubscription, useUpdateQuery, useWebsite } from '@/components/hooks';
 import { Video } from '@/components/icons';
 import { getRecorderConfig, type RecorderConfig } from '@/lib/recorder';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 const RECORDER_NAME = 'recorder.js';
 
@@ -67,7 +68,12 @@ export function WebsiteReplaySettings({ websiteId }: { websiteId: string }) {
         },
         {
           onSuccess: async () => {
-            toast(t(messages.saved));
+            toast(
+              savedToastMessage(
+                t(messages.saved),
+                t(messages.itemSaved, { item: t(labels.settings) }),
+              ),
+            );
             touch('websites');
             touch(`website:${websiteId}`);
           },
@@ -139,10 +145,20 @@ export function WebsiteReplaySettings({ websiteId }: { websiteId: string }) {
   return (
     <Column gap="4">
       <Label>{sectionLabel}</Label>
-      <Switch isSelected={replayEnabled} onChange={handleReplayToggle} isDisabled={isPending}>
+      <Switch
+        isSelected={replayEnabled}
+        onChange={handleReplayToggle}
+        isDisabled={isPending}
+        data-agentom-risk="sensitive"
+      >
         {t(labels.replays)}
       </Switch>
-      <Switch isSelected={heatmapEnabled} onChange={handleHeatmapToggle} isDisabled={isPending}>
+      <Switch
+        isSelected={heatmapEnabled}
+        onChange={handleHeatmapToggle}
+        isDisabled={isPending}
+        data-agentom-risk="sensitive"
+      >
         {t(labels.heatmaps)}
       </Switch>
       {(replayEnabled || heatmapEnabled) && (
@@ -186,7 +202,11 @@ export function WebsiteReplaySettings({ websiteId }: { websiteId: string }) {
                 <Select
                   value={maskLevel}
                   onChange={v => setMaskLevel(v as typeof maskLevel)}
-                  buttonProps={{ style: { maxWidth: '360px' } }}
+                  buttonProps={{
+                    style: { maxWidth: '360px' },
+                    'aria-label': t(labels.maskLevel),
+                  }}
+                  listProps={{ 'aria-label': t(labels.maskLevel) }}
                 >
                   <ListItem id="strict">strict</ListItem>
                   <ListItem id="moderate">moderate</ListItem>
@@ -197,7 +217,11 @@ export function WebsiteReplaySettings({ websiteId }: { websiteId: string }) {
                 <Select
                   value={maxDuration}
                   onChange={v => setMaxDuration(v as string)}
-                  buttonProps={{ style: { maxWidth: '360px' } }}
+                  buttonProps={{
+                    style: { maxWidth: '360px' },
+                    'aria-label': t(labels.maxDuration),
+                  }}
+                  listProps={{ 'aria-label': t(labels.maxDuration) }}
                 >
                   <ListItem id="300000">5 minutes</ListItem>
                   <ListItem id="600000">10 minutes</ListItem>

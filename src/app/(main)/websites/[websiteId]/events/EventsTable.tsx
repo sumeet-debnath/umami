@@ -21,7 +21,7 @@ import { EventData } from '@/components/metrics/EventData';
 import { Lightning } from '@/components/svg';
 
 export function EventsTable(props: DataTableProps) {
-  const { t, labels } = useMessages();
+  const { t, labels, messages } = useMessages();
   const { updateParams } = useNavigation();
   const { formatValue } = useFormat();
 
@@ -69,7 +69,14 @@ export function EventsTable(props: DataTableProps) {
       <DataColumn id="session" label={t(labels.session)} width="80px">
         {(row: any) => {
           return (
-            <Link href={updateParams({ session: row.sessionId })}>
+            <Link
+              href={updateParams({ session: row.sessionId })}
+              aria-label={t(messages.sessionFrom, {
+                country: formatValue(row.country, 'country'),
+                browser: formatValue(row.browser, 'browser'),
+                os: formatValue(row.os, 'os'),
+              })}
+            >
               <Avatar seed={row.sessionId} size={32} />
             </Link>
           );

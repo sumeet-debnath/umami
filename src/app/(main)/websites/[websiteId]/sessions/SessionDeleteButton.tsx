@@ -49,6 +49,8 @@ export function SessionDeleteButton({
 
   return (
     <DialogButton
+      data-agentom-risk="destructive"
+      data-agentom-confirmation="required"
       aria-label={t(labels.delete)}
       data-test="button-delete-session"
       icon={<Trash />}
@@ -58,6 +60,7 @@ export function SessionDeleteButton({
     >
       {({ close }) => (
         <ConfirmationForm
+          buttonProps={{ 'data-agentom-risk': 'destructive' }}
           message={t(messages.confirmDelete, { target: t(labels.session) })}
           isLoading={isPending}
           error={getErrorMessage(error)}

@@ -47,6 +47,7 @@ export function JourneysPage({ websiteId }: { websiteId: string }) {
           value={steps}
           defaultValue={steps}
           onChange={value => setSteps(Number(value))}
+          listProps={{ 'aria-label': t(labels.steps) }}
         >
           {JOURNEY_STEPS.map(step => (
             <ListItem key={step} id={step}>

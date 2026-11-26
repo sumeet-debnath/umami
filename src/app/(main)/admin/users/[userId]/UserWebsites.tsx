@@ -6,7 +6,7 @@ export function UserWebsites({ userId }) {
   const queryResult = useUserWebsitesQuery({ userId });
 
   return (
-    <DataGrid query={queryResult}>
+    <DataGrid itemsLabel="websites" query={queryResult}>
       {({ data }) => <WebsitesTable data={data} showActions />}
     </DataGrid>
   );

@@ -4,6 +4,7 @@ import { RouterProvider, ZenProvider } from '@umami/react-zen';
 import { NextIntlClientProvider } from 'next-intl';
 import { useEffect } from 'react';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
+import { LibraryMarkup } from '@/components/common/LibraryMarkup';
 import { useLocale } from '@/components/hooks';
 import 'chartjs-adapter-date-fns';
 
@@ -39,6 +40,7 @@ export function Providers({ children }) {
         <MessagesProvider>
           <QueryClientProvider client={client}>
             <ErrorBoundary>{children}</ErrorBoundary>
+            <LibraryMarkup />
           </QueryClientProvider>
         </MessagesProvider>
       </RouterProvider>

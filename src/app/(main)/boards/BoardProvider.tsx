@@ -7,6 +7,7 @@ import { useBoardQuery } from '@/components/hooks/queries/useBoardQuery';
 import { BOARD_TYPES, getBoardType } from '@/lib/boards';
 import type { Board, BoardParameters } from '@/lib/types';
 import { getComponentDefinition } from './boardComponentRegistry';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export type LayoutGetter = () => Partial<BoardParameters> | null;
 
@@ -17,6 +18,16 @@ export interface BoardContextValue {
   saveBoard: () => Promise<Board>;
   isPending: boolean;
   registerLayoutGetter: (getter: LayoutGetter) => void;
+  isModified?: boolean;
+}
+
+export function getBoardSnapshot(board: Partial<Board>) {
+  return JSON.stringify({
+    name: board?.name ?? '',
+    description: board?.description ?? '',
+    type: board?.type,
+    parameters: board?.parameters,
+  });
 }
 
 export const BoardContext = createContext<BoardContextValue>(null);
@@ -72,6 +83,7 @@ export function BoardProvider({
   const [board, setBoard] = useState<Partial<Board>>(data ?? createDefaultBoard());
   const boardRef = useRef<Partial<Board>>(data ?? createDefaultBoard());
   const layoutGetterRef = useRef<LayoutGetter | null>(null);
+  const [savedSnapshot, setSavedSnapshot] = useState(() => getBoardSnapshot(board));
 
   const registerLayoutGetter = useCallback((getter: LayoutGetter) => {
     layoutGetterRef.current = getter;
@@ -87,6 +99,7 @@ export function BoardProvider({
 
       boardRef.current = nextBoard;
       setBoard(nextBoard);
+      setSavedSnapshot(getBoardSnapshot(nextBoard));
     }
   }, [data]);
 
@@ -129,7 +142,9 @@ export function BoardProvider({
       parameters,
     });
 
-    toast(t(messages.saved));
+    setSavedSnapshot(getBoardSnapshot(currentBoard));
+
+    toast(savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: 'Board' })));
     touch('boards');
 
     if (currentBoard.id) {
@@ -147,7 +162,15 @@ export function BoardProvider({
 
   return (
     <BoardContext.Provider
-      value={{ board, editing, updateBoard, saveBoard, isPending, registerLayoutGetter }}
+      value={{
+        board,
+        editing,
+        updateBoard,
+        saveBoard,
+        isPending,
+        registerLayoutGetter,
+        isModified: getBoardSnapshot(board) !== savedSnapshot,
+      }}
     >
       {children}
     </BoardContext.Provider>

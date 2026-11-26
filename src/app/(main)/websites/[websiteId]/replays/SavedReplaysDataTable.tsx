@@ -6,7 +6,7 @@ export function SavedReplaysDataTable({ websiteId }: { websiteId: string }) {
   const queryResult = useSavedReplaysQuery(websiteId);
 
   return (
-    <DataGrid query={queryResult} allowPaging allowSearch>
+    <DataGrid itemsLabel="replays" query={queryResult} allowPaging allowSearch>
       {({ data }) => {
         return <SavedReplaysTable data={data} />;
       }}

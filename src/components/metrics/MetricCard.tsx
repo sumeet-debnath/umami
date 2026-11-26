@@ -1,7 +1,8 @@
 import { Button, Column, Icon, Row, Text, Tooltip, TooltipTrigger } from '@umami/react-zen';
 import { useSpring, useTransform } from 'motion/react';
-import { type ReactNode, useEffect } from 'react';
+import { type ReactNode, useEffect, useId } from 'react';
 import { AnimatedDiv } from '@/components/common/AnimatedDiv';
+import { useMessages } from '@/components/hooks';
 import { Info } from '@/components/icons';
 import { ChangeLabel } from '@/components/metrics/ChangeLabel';
 import { formatNumber } from '@/lib/format';
@@ -28,6 +29,8 @@ export const MetricCard = ({
   showLabel = true,
   showChange = false,
 }: MetricCardProps) => {
+  const { t, labels, messages } = useMessages();
+  const cardId = useId();
   const diff = value - change;
   const pct = diff !== 0 ? ((value - diff) / diff) * 100 : value !== 0 ? 100 : 0;
   const x = Number(value) || 0;
@@ -45,6 +48,15 @@ export const MetricCard = ({
     pctSpring.set(p);
   }, [p, pctSpring]);
 
+  const summary = showChange
+    ? t(messages.metricSummary, {
+        value: formatValue(value),
+        direction: change > 0 ? 'up' : change < 0 ? 'down' : 'none',
+        change: formatValue(Math.abs(change)),
+        percent: `${Math.abs(~~p)}%`,
+      })
+    : formatValue(value);
+
   return (
     <Column
       justifyContent="center"
@@ -54,15 +66,21 @@ export const MetricCard = ({
       backgroundColor="surface"
       border
       gap="4"
+      role="group"
+      aria-labelledby={showLabel && label ? `${cardId}-label` : undefined}
+      aria-describedby={`${cardId}-summary`}
     >
+      <span id={`${cardId}-summary`} hidden>
+        {summary}
+      </span>
       {showLabel && (
         <Row justifyContent="space-between" alignItems="flex-start">
-          <Text weight="bold" wrap="nowrap">
+          <Text id={`${cardId}-label`} weight="bold" wrap="nowrap">
             {label}
           </Text>
           {tooltip && (
             <TooltipTrigger delay={0}>
-              <Button size="sm" variant="quiet">
+              <Button size="sm" variant="quiet" aria-label={t(labels.aboutItem, { name: label })}>
                 <Icon size="sm">
                   <Info />
                 </Icon>

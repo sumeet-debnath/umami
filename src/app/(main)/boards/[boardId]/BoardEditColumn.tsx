@@ -87,6 +87,11 @@ export function BoardEditColumn({
       width="100%"
       height="100%"
       position="relative"
+      data-agentom-reveals={
+        canEdit && hasComponent
+          ? [t(labels.edit), canRemoveAction ? t(labels.remove) : null].filter(Boolean).join(', ')
+          : undefined
+      }
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
@@ -105,14 +110,18 @@ export function BoardEditColumn({
             backgroundColor={hasComponent ? 'surface-sunken' : undefined}
           >
             <TooltipTrigger delay={0}>
-              <Button variant="outline" onPress={() => setShowSelect(true)}>
+              <Button
+                variant="outline"
+                onPress={() => setShowSelect(true)}
+                aria-label={t(hasComponent ? labels.edit : labels.selectComponent)}
+              >
                 <Icon size="sm">{hasComponent ? <Pencil /> : <Plus />}</Icon>
               </Button>
               <Tooltip>{t(hasComponent ? labels.edit : labels.selectComponent)}</Tooltip>
             </TooltipTrigger>
             {canRemoveAction && (
               <TooltipTrigger delay={0}>
-                <Button variant="outline" onPress={handleRemove}>
+                <Button variant="outline" onPress={handleRemove} aria-label={t(labels.remove)}>
                   <Icon size="sm">
                     <X />
                   </Icon>

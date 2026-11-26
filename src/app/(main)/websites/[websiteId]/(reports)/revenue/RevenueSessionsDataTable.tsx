@@ -12,7 +12,7 @@ export function RevenueSessionsDataTable({ websiteId, currency }: RevenueSession
   const queryResult = useRevenueSessionsQuery(websiteId, currency);
 
   return (
-    <DataGrid query={queryResult} allowPaging allowSearch>
+    <DataGrid itemsLabel="sessions" query={queryResult} allowPaging allowSearch>
       {({ data }) => (
         <SessionsTable
           data={data}

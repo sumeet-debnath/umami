@@ -6,7 +6,7 @@ export function AdminWebsitesDataTable() {
   const query = useWebsitesQuery();
 
   return (
-    <DataGrid query={query} allowSearch={true}>
+    <DataGrid itemsLabel="websites" query={query} allowSearch={true}>
       {props => <AdminWebsitesTable {...props} />}
     </DataGrid>
   );

@@ -67,7 +67,7 @@ export function SessionProfile({
                   onSave={onClose}
                 />
               )}
-              <Button onPress={onClose} variant="quiet">
+              <Button onPress={onClose} variant="quiet" aria-label={t(labels.close)}>
                 <Icon>
                   <X />
                 </Icon>

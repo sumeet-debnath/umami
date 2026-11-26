@@ -82,6 +82,7 @@ export function WebsiteSelect({
       onOpenChange={handleOpenChange}
       renderValue={renderValue}
       buttonProps={{
+        'aria-label': t(labels.website),
         ...buttonProps,
         className: [
           'border-transparent bg-transparent shadow-none hover:border-transparent hover:bg-interactive active:bg-interactive-hover',
@@ -97,6 +98,7 @@ export function WebsiteSelect({
       }}
       maxHeight={480}
       listProps={{
+        'aria-label': t(labels.website),
         ...listProps,
         renderEmptyState:
           listProps?.renderEmptyState || (() => <Empty message={t(messages.noResultsFound)} />),

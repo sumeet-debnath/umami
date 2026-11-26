@@ -2,6 +2,7 @@ import { Button, Dialog, DialogTrigger, Icon, Modal, Text, useToast } from '@uma
 import { useMessages, useModified } from '@/components/hooks';
 import { Plus } from '@/components/icons';
 import { UserAddForm } from './UserAddForm';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function UserAddButton({ onSave }: { onSave?: () => void }) {
   const { t, labels, messages } = useMessages();
@@ -9,7 +10,7 @@ export function UserAddButton({ onSave }: { onSave?: () => void }) {
   const { touch } = useModified();
 
   const handleSave = () => {
-    toast(t(messages.saved));
+    toast(savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.user) })));
     touch('users');
     onSave?.();
   };

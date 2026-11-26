@@ -1,6 +1,6 @@
 import { Column, Text } from '@umami/react-zen';
 import { useSpring, useTransform } from 'motion/react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { AnimatedDiv } from '@/components/common/AnimatedDiv';
 import { Badge } from '@/components/common/Badge';
 import { useMessages } from '@/components/hooks';
@@ -40,6 +40,7 @@ export const PerformanceCard = ({
   selected = false,
 }: PerformanceCardProps) => {
   const { t, labels } = useMessages();
+  const cardId = useId();
   const rating = getRating(metric, value);
   const prevMetricRef = useRef(metric);
   const metricChanged = prevMetricRef.current !== metric;
@@ -66,14 +67,18 @@ export const PerformanceCard = ({
       gap="4"
       onClick={onClick}
       style={{ cursor: onClick ? 'pointer' : undefined }}
+      role="tab"
+      aria-selected={selected}
+      aria-labelledby={`${cardId}-label`}
+      aria-describedby={`${cardId}-value ${cardId}-rating`}
     >
-      <Text weight="bold" wrap="nowrap">
+      <Text id={`${cardId}-label`} weight="bold" wrap="nowrap">
         {label}
       </Text>
-      <Text size="4xl" weight="bold" wrap="nowrap">
+      <Text id={`${cardId}-value`} size="4xl" weight="bold" wrap="nowrap">
         <AnimatedDiv>{display}</AnimatedDiv>
       </Text>
-      <Badge variant={RATING_VARIANTS[rating]}>
+      <Badge id={`${cardId}-rating`} variant={RATING_VARIANTS[rating]}>
         {t(labels[rating === 'needs-improvement' ? 'needsImprovement' : rating])}
       </Badge>
     </Column>

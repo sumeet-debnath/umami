@@ -2,7 +2,7 @@ import { Column, Row, Text } from '@umami/react-zen';
 
 export function ActionForm({ label, description, children }) {
   return (
-    <Row alignItems="center" justifyContent="space-between" gap>
+    <Row alignItems="center" justifyContent="space-between" gap role="region" aria-label={label}>
       <Column gap="2">
         <Text weight="bold">{label}</Text>
         <Text color="muted">{description}</Text>

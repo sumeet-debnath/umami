@@ -2,7 +2,7 @@
 
 import { Icon } from '@umami/react-zen';
 import type { ReactNode } from 'react';
-import { useNavigation } from '@/components/hooks';
+import { useMessages, useNavigation } from '@/components/hooks';
 import { ChevronDown, ChevronUp } from '@/components/icons';
 
 type SortDirection = 'asc' | 'desc';
@@ -15,6 +15,7 @@ export interface SortableLabelProps {
 
 export function SortableLabel({ label, sortKey, defaultDirection = 'asc' }: SortableLabelProps) {
   const { router, query, updateParams } = useNavigation();
+  const { t, messages } = useMessages();
   const isActive = query.orderBy === sortKey;
   const isDescending = query.sortDescending === 'true';
   const direction = isActive ? (isDescending ? 'desc' : 'asc') : undefined;
@@ -45,9 +46,13 @@ export function SortableLabel({ label, sortKey, defaultDirection = 'asc' }: Sort
       type="button"
       onClick={handleSort}
       className="inline-flex appearance-none items-center gap-1 border-0 bg-transparent p-0 text-inherit"
-      aria-pressed={isActive}
     >
       <span>{label}</span>
+      {direction && (
+        <span className="sr-only">
+          {`, ${t(direction === 'desc' ? messages.sortedDescending : messages.sortedAscending)}`}
+        </span>
+      )}
       <span
         aria-hidden
         style={{

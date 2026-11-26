@@ -68,6 +68,7 @@ export function LinkSelect({
       onOpenChange={handleOpenChange}
       renderValue={renderValue}
       buttonProps={{
+        'aria-label': t(labels.link),
         ...buttonProps,
         style: {
           minHeight: 40,
@@ -78,6 +79,7 @@ export function LinkSelect({
       }}
       maxHeight={480}
       listProps={{
+        'aria-label': t(labels.link),
         ...listProps,
         renderEmptyState:
           listProps?.renderEmptyState || (() => <Empty message={t(messages.noResultsFound)} />),

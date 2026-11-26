@@ -32,7 +32,7 @@ export function UserAddForm({ onSave, onClose }) {
         name="username"
         rules={{ required: t(labels.required) }}
       >
-        <TextField autoComplete="new-username" data-test="input-username" />
+        <TextField aria-required="true" autoComplete="new-username" data-test="input-username" />
       </FormField>
       <FormField
         label={t(labels.password)}
@@ -42,10 +42,17 @@ export function UserAddForm({ onSave, onClose }) {
           minLength: { value: 8, message: t(messages.minPasswordLength, { n: '8' }) },
         }}
       >
-        <PasswordField autoComplete="new-password" data-test="input-password" />
+        <PasswordField
+          aria-required="true"
+          autoComplete="new-password"
+          data-test="input-password"
+        />
       </FormField>
       <FormField label={t(labels.role)} name="role" rules={{ required: t(labels.required) }}>
-        <Select>
+        <Select
+          buttonProps={{ 'aria-required': true }}
+          listProps={{ 'aria-label': t(labels.role) }}
+        >
           <ListItem id={ROLES.viewOnly} data-test="dropdown-item-viewOnly">
             {t(labels.viewOnly)}
           </ListItem>

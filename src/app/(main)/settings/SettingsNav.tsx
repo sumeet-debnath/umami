@@ -12,7 +12,7 @@ export function SettingsNav({
   onItemClick?: () => void;
 }) {
   const { t, labels } = useMessages();
-  const { renderUrl, pathname } = useNavigation();
+  const { renderUrl, pathname, isCurrentHref } = useNavigation();
 
   const items = [
     {
@@ -58,7 +58,11 @@ export function SettingsNav({
 
   return (
     <Column gap="2">
-      <Link href={renderUrl('/websites', false)} role="button" onClick={onItemClick}>
+      <Link
+        href={renderUrl('/websites', false)}
+        onClick={onItemClick}
+        aria-label={isCollapsed ? t(labels.back) : undefined}
+      >
         {(() => {
           const content = (
             <Row
@@ -111,7 +115,13 @@ export function SettingsNav({
               </Row>
             );
             return (
-              <Link key={id} href={path} role="button" onClick={onItemClick}>
+              <Link
+                key={id}
+                href={path}
+                onClick={onItemClick}
+                aria-label={isCollapsed ? label : undefined}
+                aria-current={isSelected ? (isCurrentHref(path) ? 'page' : 'true') : undefined}
+              >
                 {isCollapsed ? (
                   <TooltipTrigger delay={0}>
                     {content}

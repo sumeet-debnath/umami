@@ -141,6 +141,7 @@ export function AnnotationsModal({
                   <Button
                     variant="quiet"
                     onPress={() => setView({ mode: 'edit', annotation: row })}
+                    aria-label={t(labels.editItem, { name: t(labels.note) })}
                   >
                     <IconLabel icon={<Edit />} />
                   </Button>

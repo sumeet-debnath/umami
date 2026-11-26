@@ -71,6 +71,7 @@ export function WebsiteValueComboBox({
       <ComboBox
         {...props}
         aria-label={props['aria-label'] ?? label}
+        inputProps={{ 'aria-label': props['aria-label'] ?? label }}
         items={items}
         inputValue={value}
         placeholder={placeholder}

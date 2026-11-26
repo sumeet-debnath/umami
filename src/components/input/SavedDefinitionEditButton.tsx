@@ -73,7 +73,7 @@ export function SavedDefinitionEditButton({
   return (
     <>
       <MenuTrigger>
-        <Button variant="quiet">
+        <Button variant="quiet" aria-label={t(labels.actionsFor, { name })}>
           <Icon>
             <MoreHorizontal />
           </Icon>
@@ -86,7 +86,12 @@ export function SavedDefinitionEditButton({
               </Icon>
               <Text>{t(labels.edit)}</Text>
             </MenuItem>
-            <MenuItem id="delete" onAction={handleAction}>
+            <MenuItem
+              id="delete"
+              onAction={handleAction}
+              data-agentom-risk="destructive"
+              data-agentom-confirmation="required"
+            >
               <Icon>
                 <Trash />
               </Icon>

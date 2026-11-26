@@ -21,6 +21,7 @@ export interface DialogButtonProps extends Omit<ButtonProps, 'children' | 'title
   minHeight?: string;
   isOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
+  dialogProps?: Partial<DialogProps>;
   children?: DialogProps['children'];
 }
 
@@ -34,6 +35,7 @@ export function DialogButton({
   minHeight,
   isOpen,
   onOpenChange,
+  dialogProps,
   children,
   ...props
 }: DialogButtonProps) {
@@ -58,7 +60,7 @@ export function DialogButton({
   }
 
   const dialog = (
-    <Dialog title={title === undefined ? label : title} style={style}>
+    <Dialog {...dialogProps} title={title === undefined ? label : title} style={style}>
       {children}
     </Dialog>
   );

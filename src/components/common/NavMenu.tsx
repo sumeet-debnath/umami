@@ -1,6 +1,7 @@
 import { Column, Heading, Row, Text } from '@umami/react-zen';
 import { IconLabel } from '@/components/common/IconLabel';
 import Link from '@/components/common/Link';
+import { useNavigation } from '@/components/hooks';
 
 interface NavMenuData {
   id: string;
@@ -30,12 +31,18 @@ export function NavMenu({
   onItemClick,
   ...props
 }: NavMenuProps) {
+  const { isCurrentHref } = useNavigation();
   const renderItems = (items: NavMenuData[]) => {
     return items?.map(({ id, label, icon, path }) => {
       const isSelected = selectedKey === id;
 
       return (
-        <Link key={id} href={path} onClick={onItemClick}>
+        <Link
+          key={id}
+          href={path}
+          onClick={onItemClick}
+          aria-current={isSelected ? (isCurrentHref(path) ? 'page' : 'true') : undefined}
+        >
           <Row
             padding
             borderRadius

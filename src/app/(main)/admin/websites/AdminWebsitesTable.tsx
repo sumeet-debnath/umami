@@ -64,7 +64,7 @@ export function AdminWebsitesTable({ data = [], ...props }: { data: any[] }) {
             const { id } = row;
 
             return (
-              <MenuButton>
+              <MenuButton label={t(labels.actionsFor, { name: row.name })}>
                 <MenuItem
                   onAction={() => router.push(`/admin/websites/${id}`)}
                   data-test="link-button-edit"
@@ -78,6 +78,8 @@ export function AdminWebsitesTable({ data = [], ...props }: { data: any[] }) {
                 </MenuItem>
                 <MenuItem
                   id="delete"
+                  data-agentom-risk="destructive"
+                  data-agentom-confirmation="required"
                   onAction={() => setDeleteWebsite(id)}
                   data-test="link-button-delete"
                 >

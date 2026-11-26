@@ -37,6 +37,7 @@ export function WebsiteTrackingCode({
       {showHeader && <Label>{t(labels.trackingCode)}</Label>}
       <Text color="muted">{t(messages.trackingCode)}</Text>
       <TextField
+        aria-label={t(labels.trackingCode)}
         value={code}
         isReadOnly
         allowCopy

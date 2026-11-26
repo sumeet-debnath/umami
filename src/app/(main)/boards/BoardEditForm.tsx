@@ -24,6 +24,7 @@ import {
   setBoardEntity,
 } from '@/lib/boards';
 import type { Board } from '@/lib/types';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 interface BoardFormValues {
   name: string;
@@ -76,7 +77,7 @@ export function BoardEditForm({
       parameters: setBoardEntity(board?.parameters, data.type, data.entityId || undefined),
     });
 
-    toast(t(messages.saved));
+    toast(savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: 'Board' })));
     touch('boards');
     touch(`board:${result.id}`);
     await onSave?.(result);
@@ -119,7 +120,12 @@ export function BoardEditForm({
         return (
           <>
             <FormField name="name" label={t(labels.name)} rules={{ required: t(labels.required) }}>
-              <TextField autoComplete="off" autoFocus={!boardId} placeholder={t(labels.untitled)} />
+              <TextField
+                aria-required="true"
+                autoComplete="off"
+                autoFocus={!boardId}
+                placeholder={t(labels.untitled)}
+              />
             </FormField>
             <FormField name="description" label={t(labels.description)}>
               <TextField
@@ -138,7 +144,15 @@ export function BoardEditForm({
                 {boardId ? (
                   <Text>{boardTypeLabel}</Text>
                 ) : (
-                  <Select value={type} onChange={handleTypeChange}>
+                  <Select
+                    value={type}
+                    onChange={handleTypeChange}
+                    buttonProps={{
+                      'aria-label': t(labels.boardType),
+                      'aria-required': true,
+                    }}
+                    listProps={{ 'aria-label': t(labels.boardType) }}
+                  >
                     <ListItem id={BOARD_TYPES.mixed}>{t(labels.open)}</ListItem>
                     <ListItem id={BOARD_TYPES.website}>{t(labels.website)}</ListItem>
                     <ListItem id={BOARD_TYPES.pixel}>{t(labels.pixel)}</ListItem>

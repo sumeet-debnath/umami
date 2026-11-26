@@ -29,7 +29,7 @@ import { Logo } from '@/components/svg';
 
 export function SideNav(props: any) {
   const { t, labels } = useMessages();
-  const { pathname, renderUrl, websiteId, teamId } = useNavigation();
+  const { pathname, renderUrl, websiteId, teamId, isCurrentHref } = useNavigation();
   const [isCollapsed] = useGlobalState('sidenav-collapsed', false);
 
   const links = [
@@ -138,7 +138,18 @@ export function SideNav(props: any) {
                 </Row>
               );
               return (
-                <Link key={id} href={renderUrl(path, false)} role="button">
+                <Link
+                  key={id}
+                  href={renderUrl(path, false)}
+                  aria-label={isCollapsed ? label : undefined}
+                  aria-current={
+                    isSelected
+                      ? isCurrentHref(renderUrl(path, false))
+                        ? 'page'
+                        : 'true'
+                      : undefined
+                  }
+                >
                   {isCollapsed ? (
                     <TooltipTrigger delay={0}>
                       {content}
@@ -166,11 +177,14 @@ export function SideNav(props: any) {
 }
 
 const PanelButton = (props: ButtonProps) => {
+  const { t, labels } = useMessages();
   const [isCollapsed, setIsCollapsed] = useGlobalState('sidenav-collapsed', false);
   return (
     <Button
       onPress={() => setIsCollapsed(!isCollapsed)}
       variant="zero"
+      aria-label={t(labels.navigation)}
+      aria-expanded={!isCollapsed}
       {...props}
       style={{ padding: 0 }}
     >

@@ -29,11 +29,13 @@ export function TeamJoinForm({ onSave, onClose }: { onSave: () => void; onClose:
         name="accessCode"
         rules={{ required: t(labels.required) }}
       >
-        <TextField autoComplete="off" />
+        <TextField aria-required="true" autoComplete="off" />
       </FormField>
       <FormButtons>
         <Button onPress={onClose}>{t(labels.cancel)}</Button>
-        <FormSubmitButton variant="primary">{t(labels.join)}</FormSubmitButton>
+        <FormSubmitButton variant="primary" data-agentom-risk="sensitive">
+          {t(labels.join)}
+        </FormSubmitButton>
       </FormButtons>
     </Form>
   );

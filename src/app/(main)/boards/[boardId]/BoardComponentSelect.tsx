@@ -308,6 +308,8 @@ export function BoardComponentSelect({
                 <Select
                   value={selectedEntityType}
                   onChange={value => handleEntityTypeChange(value as string)}
+                  buttonProps={{ 'aria-label': t(labels.type) }}
+                  listProps={{ 'aria-label': t(labels.type) }}
                 >
                   <ListItem id={BOARD_ENTITY_TYPES.website}>{t(labels.website)}</ListItem>
                   <ListItem id={BOARD_ENTITY_TYPES.pixel}>{t(labels.pixel)}</ListItem>
@@ -352,14 +354,24 @@ export function BoardComponentSelect({
             <Text size="sm" color="muted">
               {t(labels.title)}
             </Text>
-            <TextField value={title} onChange={setTitle} autoComplete="off" />
+            <TextField
+              aria-label={t(labels.title)}
+              value={title}
+              onChange={setTitle}
+              autoComplete="off"
+            />
           </Column>
 
           <Column gap="2">
             <Text size="sm" color="muted">
               {t(labels.description)}
             </Text>
-            <TextField value={description} onChange={setDescription} autoComplete="off" />
+            <TextField
+              aria-label={t(labels.description)}
+              value={description}
+              onChange={setDescription}
+              autoComplete="off"
+            />
           </Column>
 
           {selectedDef?.configFields && selectedDef.configFields.length > 0 && (
@@ -376,6 +388,8 @@ export function BoardComponentSelect({
                       onChange={value => handleConfigChange(field.name, value as string)}
                       maxHeight={300}
                       popoverProps={{ style: { width: 220 } }}
+                      buttonProps={{ 'aria-label': field.label }}
+                      listProps={{ 'aria-label': field.label }}
                     >
                       {(field.optionsByEntityType?.[activeEntityType] ?? field.options)?.map(
                         option => (
@@ -389,6 +403,7 @@ export function BoardComponentSelect({
 
                   {field.type === 'text' && (
                     <TextField
+                      aria-label={field.label}
                       value={String(configValues[field.name] ?? field.defaultValue ?? '')}
                       onChange={(value: string) => handleConfigChange(field.name, value)}
                     />
@@ -396,6 +411,7 @@ export function BoardComponentSelect({
 
                   {field.type === 'number' && (
                     <TextField
+                      aria-label={field.label}
                       type="number"
                       value={String(configValues[field.name] ?? field.defaultValue ?? '')}
                       onChange={(value: string) => handleConfigChange(field.name, value)}
@@ -404,6 +420,7 @@ export function BoardComponentSelect({
 
                   {field.type === 'textarea' && (
                     <TextField
+                      aria-label={field.label}
                       asTextArea
                       value={String(configValues[field.name] ?? field.defaultValue ?? '')}
                       onChange={(value: string) => handleConfigChange(field.name, value)}
@@ -418,6 +435,8 @@ export function BoardComponentSelect({
                         onChange={value => handleConfigChange(field.name, value as string)}
                         maxHeight={300}
                         popoverProps={{ style: { width: 220 } }}
+                        buttonProps={{ 'aria-label': field.label }}
+                        listProps={{ 'aria-label': field.label }}
                       >
                         {(reportOptionsByType[field.reportType ?? ''] ?? []).map(option => (
                           <ListItem key={option.id} id={option.id}>

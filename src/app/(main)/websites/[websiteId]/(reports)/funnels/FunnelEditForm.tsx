@@ -206,7 +206,7 @@ export function FunnelEditForm({
   return (
     <Form onSubmit={handleSubmit} error={error?.message} defaultValues={defaultValues}>
       <FormField name="name" label={t(labels.name)} rules={{ required: t(labels.required) }}>
-        <TextField autoFocus />
+        <TextField aria-required="true" autoFocus />
       </FormField>
       <FormField
         name="window"
@@ -219,7 +219,7 @@ export function FunnelEditForm({
           },
         }}
       >
-        <TextField />
+        <TextField aria-required="true" />
       </FormField>
       <FormFieldArray
         name="steps"

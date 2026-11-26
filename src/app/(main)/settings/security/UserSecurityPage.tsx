@@ -72,6 +72,7 @@ export function UserSecurityPage() {
                     isSelected={isEnabled}
                     isDisabled={isEnabled && isRequired}
                     onChange={handleToggle}
+                    aria-label={t(labels.twoFactorEnable)}
                   />
                   <Text>{t(labels.twoFactorEnable)}</Text>
                 </Row>
@@ -85,6 +86,7 @@ export function UserSecurityPage() {
                   isSelected={isEnabled}
                   isDisabled={isEnabled && isRequired}
                   onChange={handleToggle}
+                  aria-label={t(labels.twoFactorEnable)}
                 />
                 <Text>{t(labels.twoFactorEnable)}</Text>
               </Row>
@@ -96,6 +98,7 @@ export function UserSecurityPage() {
                   isSelected={isEnabled}
                   isDisabled={isEnabled && isRequired}
                   onChange={handleToggle}
+                  aria-label={t(labels.twoFactorEnable)}
                 />
                 <Text>{t(labels.twoFactorEnable)}</Text>
               </Row>

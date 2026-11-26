@@ -12,6 +12,7 @@ export function AnnotationsButton({ websiteId }: { websiteId: string }) {
       icon={<MessageSquareText />}
       label={t(labels.notes)}
       title={null}
+      dialogProps={{ 'aria-label': t(labels.notes) }}
       variant="quiet"
       width="800px"
     >

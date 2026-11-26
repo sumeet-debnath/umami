@@ -22,6 +22,7 @@ import {
   setBoardEntity,
 } from '@/lib/boards';
 import type { Board } from '@/lib/types';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 interface BoardCloneFormValues {
   name: string;
@@ -67,7 +68,7 @@ export function BoardCloneForm({
       parameters: setBoardEntity(board?.parameters, boardType, data.entityId || undefined),
     });
 
-    toast(t(messages.saved));
+    toast(savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: 'Board' })));
     touch('boards');
     touch(`board:${result.id}`);
     await onSave?.(result);
@@ -104,7 +105,12 @@ export function BoardCloneForm({
         return (
           <>
             <FormField name="name" label={t(labels.name)} rules={{ required: t(labels.required) }}>
-              <TextField autoComplete="off" autoFocus placeholder={t(labels.untitled)} />
+              <TextField
+                aria-required="true"
+                autoComplete="off"
+                autoFocus
+                placeholder={t(labels.untitled)}
+              />
             </FormField>
             <FormField name="description" label={t(labels.description)}>
               <TextField

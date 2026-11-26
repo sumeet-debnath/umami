@@ -51,7 +51,10 @@ export function TeamMemberAddForm({
         <UserSelect teamId={teamId} />
       </FormField>
       <FormField name="role" label={t(labels.role)} rules={{ required: 'Required' }}>
-        <Select>
+        <Select
+          buttonProps={{ 'aria-required': true }}
+          listProps={{ 'aria-label': t(labels.role) }}
+        >
           {roles.map(value => (
             <ListItem key={value} id={value}>
               {renderRole(value)}

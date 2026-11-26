@@ -64,7 +64,7 @@ export function AdminTeamsTable({
               const { id } = row;
 
               return (
-                <MenuButton>
+                <MenuButton label={t(labels.actionsFor, { name: row.name })}>
                   <MenuItem
                     onAction={() => router.push(`/admin/teams/${id}`)}
                     data-test="link-button-edit"
@@ -78,6 +78,8 @@ export function AdminTeamsTable({
                   </MenuItem>
                   <MenuItem
                     id="delete"
+                    data-agentom-risk="destructive"
+                    data-agentom-confirmation="required"
                     onAction={() => setDeleteTeam(id)}
                     data-test="link-button-delete"
                   >

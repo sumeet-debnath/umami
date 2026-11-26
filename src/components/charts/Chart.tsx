@@ -5,12 +5,13 @@ import ChartJS, {
   type LegendItem,
   type UpdateMode,
 } from 'chart.js/auto';
-import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react';
 import {
   type AnnotationMarker,
   type ChartAnnotation,
   ChartAnnotationMarkers,
 } from '@/components/charts/ChartAnnotationMarkers';
+import { useMessages } from '@/components/hooks';
 import { Legend } from '@/components/metrics/Legend';
 import { getChartBucketIndex } from '@/lib/charts';
 import { DEFAULT_ANIMATION_DURATION } from '@/lib/constants';
@@ -30,6 +31,7 @@ export interface ChartProps extends BoxProps {
   annotations?: ChartAnnotation[];
   onAnnotationClick?: (annotations: ChartAnnotation[]) => void;
   onAnnotationMoreClick?: (annotations: ChartAnnotation[]) => void;
+  summary?: string;
 }
 
 function isSameMarkers(a: AnnotationMarker[], b: AnnotationMarker[]) {
@@ -58,8 +60,11 @@ export function Chart({
   annotations,
   onAnnotationClick,
   onAnnotationMoreClick,
+  summary,
   ...props
 }: ChartProps) {
+  const { t, messages } = useMessages();
+  const summaryId = useId();
   const canvas = useRef(null);
   const chart = useRef(null);
   const [legendItems, setLegendItems] = useState([]);
@@ -217,6 +222,54 @@ export function Chart({
     }
   }, [chartData, options, updateMode, hiddenLabels]);
 
+  const chartSummary = useMemo(() => {
+    if (summary) {
+      return summary;
+    }
+
+    const renderLabel = (chartOptions as any)?.scales?.x?.ticks?.callback;
+    const formatAt = (x: any) => {
+      if (renderLabel && x !== undefined && x !== null) {
+        try {
+          return String(renderLabel(String(x), 0, [{ value: new Date(x).getTime() }]));
+        } catch {
+          return String(x);
+        }
+      }
+      return String(x ?? '');
+    };
+    const formatY = (n: number) => Number(n).toLocaleString();
+
+    return (chartData?.datasets ?? [])
+      .map((dataset: any, datasetIndex: number) => {
+        const points = (dataset?.data ?? [])
+          .map((d: any, i: number) => ({
+            x: d?.x ?? d?.d ?? chartData?.labels?.[i],
+            y: Number(typeof d === 'object' && d !== null ? d.y : d),
+          }))
+          .filter(({ y }) => Number.isFinite(y));
+
+        if (!points.length) {
+          return null;
+        }
+
+        const max = points.reduce((a, b) => (b.y > a.y ? b : a));
+        const min = points.reduce((a, b) => (b.y < a.y ? b : a));
+        const total = points.reduce((sum, { y }) => sum + y, 0);
+
+        return t(messages.chartSummary, {
+          series: dataset?.label ?? String(datasetIndex + 1),
+          total: formatY(total),
+          max: formatY(max.y),
+          maxAt: formatAt(max.x),
+          min: formatY(min.y),
+          minAt: formatAt(min.x),
+        });
+      })
+      .filter(Boolean)
+      .join('; ');
+  }, [summary, chartData, chartOptions]);
+
   // Re-run layout when annotations change so marker positions are recalculated
   useEffect(() => {
     chart.current?.update('none');
@@ -224,9 +277,18 @@ export function Chart({
 
   return (
     <Column gap="6">
-      <Box {...props}>
+      <Box {...props} role="figure" aria-describedby={chartSummary ? summaryId : undefined}>
+        {chartSummary && (
+          <span id={summaryId} hidden>
+            {chartSummary}
+          </span>
+        )}
         <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
-          <canvas ref={canvas} style={{ position: 'absolute', top: 0, left: 0 }} />
+          <canvas
+            ref={canvas}
+            style={{ position: 'absolute', top: 0, left: 0 }}
+            data-agentom-ignore
+          />
           {markers.length > 0 && (
             <ChartAnnotationMarkers
               markers={markers}

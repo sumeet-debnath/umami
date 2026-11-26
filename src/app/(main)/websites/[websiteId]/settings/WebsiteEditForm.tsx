@@ -1,6 +1,7 @@
 import { Form, FormButtons, FormField, FormSubmitButton, TextField } from '@umami/react-zen';
 import { useMessages, useUpdateQuery, useWebsite } from '@/components/hooks';
 import { DOMAIN_REGEX } from '@/lib/constants';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function WebsiteEditForm({ websiteId, onSave }: { websiteId: string; onSave?: () => void }) {
   const website = useWebsite();
@@ -11,7 +12,9 @@ export function WebsiteEditForm({ websiteId, onSave }: { websiteId: string; onSa
     const { shareId, ...updateData } = data;
     await mutateAsync(updateData, {
       onSuccess: async () => {
-        toast(t(messages.saved));
+        toast(
+          savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.website) })),
+        );
         touch('websites');
         touch(`website:${website.id}`);
         onSave?.();
@@ -30,7 +33,7 @@ export function WebsiteEditForm({ websiteId, onSave }: { websiteId: string; onSa
         name="name"
         rules={{ required: t(labels.required) }}
       >
-        <TextField />
+        <TextField aria-required="true" />
       </FormField>
       <FormField
         label={t(labels.domain)}
@@ -44,7 +47,7 @@ export function WebsiteEditForm({ websiteId, onSave }: { websiteId: string; onSa
           },
         }}
       >
-        <TextField />
+        <TextField aria-required="true" />
       </FormField>
       <FormButtons>
         <FormSubmitButton data-test="button-submit" variant="primary">

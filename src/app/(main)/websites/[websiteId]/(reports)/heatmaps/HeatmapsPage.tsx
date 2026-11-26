@@ -72,6 +72,7 @@ export function HeatmapsPage({ websiteId }: { websiteId: string }) {
                     onSearch={setSearch}
                     placeholder="Search"
                     className="w-full max-w-md"
+                    aria-label={`${t(labels.search)} pages`}
                   />
                 </Row>
                 <Row justifyContent="flex-end">
@@ -89,6 +90,7 @@ export function HeatmapsPage({ websiteId }: { websiteId: string }) {
                   onSearch={setSearch}
                   placeholder="Search"
                   className="w-full max-w-md"
+                  aria-label={`${t(labels.search)} pages`}
                 />
                 <FilterButtons
                   items={buttons}

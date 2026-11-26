@@ -62,7 +62,7 @@ export function GoalEditForm({
         return (
           <>
             <FormField name="name" label={t(labels.name)} rules={{ required: t(labels.required) }}>
-              <TextField autoFocus />
+              <TextField aria-required="true" autoFocus />
             </FormField>
             <Column gap="1">
               <Label>{t(labels.action)}</Label>

@@ -7,7 +7,13 @@ export function BoardsDataTable() {
   const query = useBoardsQuery({ teamId });
 
   return (
-    <DataGrid query={query} allowSearch={true} autoFocus={false} allowPaging={true}>
+    <DataGrid
+      itemsLabel="boards"
+      query={query}
+      allowSearch={true}
+      autoFocus={false}
+      allowPaging={true}
+    >
       {({ data }) => <BoardsTable data={data} />}
     </DataGrid>
   );

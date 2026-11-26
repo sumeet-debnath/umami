@@ -68,6 +68,7 @@ export function PixelSelect({
       onOpenChange={handleOpenChange}
       renderValue={renderValue}
       buttonProps={{
+        'aria-label': t(labels.pixel),
         ...buttonProps,
         style: {
           minHeight: 40,
@@ -78,6 +79,7 @@ export function PixelSelect({
       }}
       maxHeight={480}
       listProps={{
+        'aria-label': t(labels.pixel),
         ...listProps,
         renderEmptyState:
           listProps?.renderEmptyState || (() => <Empty message={t(messages.noResultsFound)} />),

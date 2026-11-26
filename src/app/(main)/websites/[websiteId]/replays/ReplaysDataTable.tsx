@@ -15,6 +15,7 @@ export function ReplaysDataTable({ websiteId }: { websiteId: string }) {
 
   return (
     <DataGrid
+      itemsLabel="replays"
       query={queryResult}
       allowPaging
       allowSearch

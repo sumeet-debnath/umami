@@ -158,7 +158,7 @@ export function CompareTables({ websiteId }: { websiteId: string }) {
           value={view}
           onChange={handleChange}
           maxHeight={480}
-          listProps={{ style: { width: 200 } }}
+          listProps={{ style: { width: 200 }, 'aria-label': t(labels.compare) }}
         >
           {items.map(({ id, label }) => (
             <ListItem key={id} id={id}>

@@ -27,9 +27,18 @@ export function PixelDeleteButton({
   };
 
   return (
-    <DialogButton icon={<Trash />} variant="quiet" title={t(labels.confirm)} width="400px">
+    <DialogButton
+      data-agentom-risk="destructive"
+      data-agentom-confirmation="required"
+      icon={<Trash />}
+      aria-label={t(labels.deleteItem, { name: name })}
+      variant="quiet"
+      title={t(labels.confirm)}
+      width="400px"
+    >
       {({ close }) => (
         <ConfirmationForm
+          buttonProps={{ 'data-agentom-risk': 'destructive' }}
           message={t.rich(messages.confirmRemove, {
             target: name,
             b: chunks => <b>{chunks}</b>,

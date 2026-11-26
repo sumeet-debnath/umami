@@ -28,9 +28,18 @@ export function AnnotationDeleteButton({
   };
 
   return (
-    <DialogButton icon={<Trash />} variant="quiet" title={t(labels.confirm)} width="400px">
+    <DialogButton
+      data-agentom-risk="destructive"
+      data-agentom-confirmation="required"
+      icon={<Trash />}
+      aria-label={t(labels.deleteItem, { name: t(labels.note) })}
+      variant="quiet"
+      title={t(labels.confirm)}
+      width="400px"
+    >
       {({ close }) => (
         <ConfirmationForm
+          buttonProps={{ 'data-agentom-risk': 'destructive' }}
           message={t(messages.confirmDelete, { target: t(labels.note) })}
           isLoading={isPending}
           error={error}

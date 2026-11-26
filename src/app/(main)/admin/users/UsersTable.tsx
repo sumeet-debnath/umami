@@ -55,7 +55,7 @@ export function UsersTable({
               const { id } = row;
 
               return (
-                <MenuButton>
+                <MenuButton label={t(labels.actionsFor, { name: row.username })}>
                   <MenuItem
                     onAction={() => router.push(`/admin/users/${id}`)}
                     data-test="link-button-edit"
@@ -69,6 +69,8 @@ export function UsersTable({
                   </MenuItem>
                   <MenuItem
                     id="delete"
+                    data-agentom-risk="destructive"
+                    data-agentom-confirmation="required"
                     onAction={() => setDeleteUser(row)}
                     data-test="link-button-delete"
                   >

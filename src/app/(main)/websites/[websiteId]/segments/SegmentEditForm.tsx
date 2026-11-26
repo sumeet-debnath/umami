@@ -14,6 +14,7 @@ import { useMessages, useUpdateQuery, useWebsiteSegmentQuery } from '@/component
 import { FieldFilters } from '@/components/input/FieldFilters';
 import { PropertyFilters } from '@/components/property-data/PropertyFilters';
 import type { SessionPropertyFilter } from '@/lib/types';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function SegmentEditForm({
   segmentId,
@@ -58,7 +59,12 @@ export function SegmentEditForm({
       },
       {
         onSuccess: async () => {
-          toast(t(messages.saved));
+          toast(
+            savedToastMessage(
+              t(messages.saved),
+              t(messages.itemSaved, { item: t(labels.segment) }),
+            ),
+          );
           touch('segments');
           onSave?.();
           onClose?.();
@@ -79,7 +85,7 @@ export function SegmentEditForm({
     >
       <Column gap="4">
         <FormField name="name" label={t(labels.name)} rules={{ required: t(labels.required) }}>
-          <TextField autoFocus={!segmentId} />
+          <TextField aria-required="true" autoFocus={!segmentId} />
         </FormField>
         {showFilters && (
           <Column gap="4">

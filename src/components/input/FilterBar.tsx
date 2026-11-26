@@ -168,7 +168,7 @@ export function FilterBar({ websiteId }: { websiteId?: string }) {
         <DialogTrigger>
           {canSaveSegment && (
             <TooltipTrigger delay={0}>
-              <Button variant="zero">
+              <Button variant="zero" aria-label={t(labels.saveSegment)}>
                 <Icon>
                   <Bookmark />
                 </Icon>
@@ -204,7 +204,7 @@ export function FilterBar({ websiteId }: { websiteId?: string }) {
           </Modal>
         </DialogTrigger>
         <TooltipTrigger delay={0}>
-          <Button variant="zero" onPress={handleResetFilter}>
+          <Button variant="zero" onPress={handleResetFilter} aria-label={t(labels.clearAll)}>
             <Icon>
               <X />
             </Icon>
@@ -219,8 +219,12 @@ export function FilterBar({ websiteId }: { websiteId?: string }) {
 }
 
 const FilterItem = ({ name, label, operator, value, onRemove }) => {
+  const { t, labels } = useMessages();
+  const text = `${label} ${operator} ${value}`;
   return (
     <Row
+      role="group"
+      aria-label={t(labels.filterItem, { filter: text })}
       border
       padding="2"
       color
@@ -248,7 +252,13 @@ const FilterItem = ({ name, label, operator, value, onRemove }) => {
             {value}
           </Text>
         </Row>
-        <Icon onClick={() => onRemove(name)} size="xs" style={{ cursor: 'pointer' }}>
+        <Icon
+          onClick={() => onRemove(name)}
+          size="xs"
+          style={{ cursor: 'pointer' }}
+          role="button"
+          aria-label={t(labels.removeFilter, { filter: text })}
+        >
           <X />
         </Icon>
       </Row>

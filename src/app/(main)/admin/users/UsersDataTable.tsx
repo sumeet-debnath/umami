@@ -7,7 +7,7 @@ export function UsersDataTable({ showActions }: { showActions?: boolean; childre
   const queryResult = useUsersQuery();
 
   return (
-    <DataGrid query={queryResult} allowSearch={true}>
+    <DataGrid itemsLabel="users" query={queryResult} allowSearch={true}>
       {({ data }) => <UsersTable data={data} showActions={showActions} />}
     </DataGrid>
   );

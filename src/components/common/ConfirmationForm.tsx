@@ -10,6 +10,7 @@ export interface ConfirmationFormProps {
   error?: string | Error;
   onConfirm?: () => void;
   onClose?: () => void;
+  buttonProps?: Record<string, string>;
 }
 
 export function ConfirmationForm({
@@ -20,6 +21,7 @@ export function ConfirmationForm({
   error,
   onConfirm,
   onClose,
+  buttonProps,
 }: ConfirmationFormProps) {
   const { t, labels, getErrorMessage } = useMessages();
 
@@ -29,6 +31,7 @@ export function ConfirmationForm({
       <FormButtons>
         <Button onPress={onClose}>{t(labels.cancel)}</Button>
         <FormSubmitButton
+          {...buttonProps}
           data-test="button-confirm"
           isLoading={isLoading}
           variant={buttonVariant}

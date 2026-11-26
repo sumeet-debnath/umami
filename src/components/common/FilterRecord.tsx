@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from 'react';
 import { Empty } from '@/components/common/Empty';
 import { MultiSelect, MultiSelectItem } from '@/components/common/MultiSelect';
-import { useFilters, useFormat, useWebsiteValuesQuery } from '@/components/hooks';
+import { useFilters, useFormat, useMessages, useWebsiteValuesQuery } from '@/components/hooks';
 import { X } from '@/components/icons';
 import { isSearchOperator } from '@/lib/params';
 
@@ -48,6 +48,7 @@ export function FilterRecord({
   onChange,
 }: FilterRecordProps) {
   const { fields, operators } = useFilters();
+  const { t, labels } = useMessages();
   const isSearch = isSearchOperator(operator);
   const [selected, setSelected] = useState<string[]>(() => getSelectedValues(value, operator));
   const [search, setSearch] = useState('');
@@ -88,7 +89,12 @@ export function FilterRecord({
       <Label>{fields.find(f => f.name === name)?.label}</Label>
       <Grid columns="1fr auto" gap>
         <Grid columns={{ base: '1fr', md: '200px 1fr' }} gap>
-          <Select value={operator} onChange={handleSelectOperator}>
+          <Select
+            value={operator}
+            onChange={handleSelectOperator}
+            buttonProps={{ 'aria-label': 'Operator' }}
+            listProps={{ 'aria-label': 'Operator' }}
+          >
             {operators
               .filter(({ type }) => type === 'string')
               .map(({ name, label }: any) => (
@@ -106,6 +112,7 @@ export function FilterRecord({
           )}
           {!isSearch && (
             <MultiSelect
+              label={t(labels.value)}
               value={selected}
               onChange={handleMultiSelectValue}
               searchValue={search}

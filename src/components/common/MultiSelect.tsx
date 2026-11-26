@@ -18,6 +18,7 @@ interface MultiSelectProps {
   allowSearch?: boolean;
   renderEmptyState?: () => ReactNode;
   renderValue?: (values: string[]) => ReactNode;
+  label?: string;
   children: ReactNode;
 }
 
@@ -38,6 +39,7 @@ export function MultiSelect({
   allowSearch,
   renderEmptyState,
   renderValue,
+  label,
   children,
 }: MultiSelectProps) {
   const displayValue = renderValue
@@ -52,6 +54,7 @@ export function MultiSelect({
         variant="outline"
         className="w-full justify-between"
         style={{ maxWidth: '100%', overflow: 'hidden' }}
+        aria-label={label ? `${displayValue ?? placeholder}, ${label}` : undefined}
       >
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {displayValue ?? placeholder}

@@ -40,7 +40,13 @@ export function ApiKeyAddForm({ onSave, onClose }: { onSave: () => void; onClose
           <AlertTitle>{t(messages.apiKeyCreated)}</AlertTitle>
         </Alert>
         <Row alignItems="center" gap="2">
-          <TextField value={createdKey} isReadOnly style={{ flex: 1, fontFamily: 'monospace' }} />
+          <TextField
+            aria-label={t(labels.apiKey)}
+            data-agentom-redact
+            value={createdKey}
+            isReadOnly
+            style={{ flex: 1, fontFamily: 'monospace' }}
+          />
           <CopyButton value={createdKey} label={t(labels.copy)} />
         </Row>
         <Row justifyContent="flex-end">

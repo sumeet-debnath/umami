@@ -8,8 +8,12 @@ import { getDayOfWeekAsDate } from '@/lib/date';
 export function WeeklyTraffic({ websiteId }: { websiteId: string }) {
   const { data, isLoading, error } = useWeeklyTrafficQuery(websiteId);
   const { dateLocale } = useLocale();
-  const { labels, t } = useMessages();
+  const { labels, messages, t } = useMessages();
   const { weekStartsOn } = dateLocale.options;
+  const hourLabel = (i: number) =>
+    format(addHours(startOfDay(new Date()), i), 'haaa', {
+      locale: dateLocale,
+    });
   const daysOfWeek = Array(7)
     .fill(weekStartsOn)
     .map((d, i) => (d + i) % 7);
@@ -52,9 +56,7 @@ export function WeeklyTraffic({ websiteId }: { websiteId: string }) {
               {Array(24)
                 .fill(null)
                 .map((_, i) => {
-                  const label = format(addHours(startOfDay(new Date()), i), 'haaa', {
-                    locale: dateLocale,
-                  });
+                  const label = hourLabel(i);
                   return (
                     <Row key={i} justifyContent="flex-end">
                       <Text color="muted" size="sm">
@@ -87,6 +89,11 @@ export function WeeklyTraffic({ websiteId }: { websiteId: string }) {
                         borderRadius="full"
                         style={{ margin: '0 auto' }}
                         role="button"
+                        aria-label={t(messages.heatmapCell, {
+                          day: format(getDayOfWeekAsDate(index), 'EEEE', { locale: dateLocale }),
+                          hour: hourLabel(j),
+                          count,
+                        })}
                       >
                         <Row
                           backgroundColor="primary"

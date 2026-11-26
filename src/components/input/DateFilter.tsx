@@ -112,6 +112,11 @@ export function DateFilter({
         placeholder={t(labels.selectDate)}
         onChange={handleChange}
         renderValue={renderValue}
+        buttonProps={{
+          'aria-label': t(labels.dateRange),
+          ...props.buttonProps,
+        }}
+        listProps={{ 'aria-label': t(labels.dateRange), ...props.listProps }}
         popoverProps={{
           side: side as any,
           align: (align === 'top' ? 'start' : align === 'bottom' ? 'end' : align) as any,
@@ -143,7 +148,7 @@ export function DateFilter({
       {showPicker && (
         <ControlledDialog>
           <Modal isOpen={true}>
-            <Dialog>
+            <Dialog aria-label={t(labels.customRange)}>
               <DatePickerForm
                 startDate={startDate}
                 endDate={endDate}

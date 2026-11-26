@@ -10,7 +10,7 @@ export function SessionsTable({
   getSessionHref,
   ...props
 }: DataTableProps & { websiteId: string; getSessionHref?: (row: any) => string }) {
-  const { t, labels } = useMessages();
+  const { t, labels, messages } = useMessages();
   const { formatValue } = useFormat();
 
   return (
@@ -22,6 +22,11 @@ export function SessionsTable({
               getSessionHref ? getSessionHref(row) : `/websites/${websiteId}/sessions/${row.id}`
             }
             scroll={getSessionHref ? false : undefined}
+            aria-label={t(messages.sessionFrom, {
+              country: formatValue(row.country, 'country'),
+              browser: formatValue(row.browser, 'browser'),
+              os: formatValue(row.os, 'os'),
+            })}
           >
             <Avatar seed={row.id} size={32} />
           </Link>

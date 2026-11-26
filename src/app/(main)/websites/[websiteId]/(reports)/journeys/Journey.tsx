@@ -1,5 +1,5 @@
 import { Column, cn, Icon, Row, Text, Tooltip, TooltipTrigger } from '@umami/react-zen';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import { firstBy } from 'thenby';
 import { LoadingPanel } from '@/components/common/LoadingPanel';
 import { useEscapeKey, useJourneyQuery, useMessages } from '@/components/hooks';
@@ -31,7 +31,8 @@ const EVENT_TYPES = {
 export function Journey({ websiteId, steps, startStep, endStep, view }: JourneyProps) {
   const [selectedNode, setSelectedNode] = useState(null);
   const [activeNode, setActiveNode] = useState(null);
-  const { t, labels } = useMessages();
+  const { t, labels, messages } = useMessages();
+  const dropId = useId();
   const { data, error, isLoading } = useJourneyQuery({
     websiteId,
     steps,
@@ -227,7 +228,27 @@ export function Journey({ websiteId, steps, startStep, endStep, view }: JourneyP
                               [styles.active]: active,
                             })}
                             onClick={() => handleClick(name, columnIndex, paths)}
+                            role="button"
+                            aria-pressed={
+                              selectedNode?.name === name &&
+                              selectedNode?.columnIndex === columnIndex
+                            }
+                            aria-label={t(messages.journeyNode, {
+                              name,
+                              count: formatLongNumber(nodeCount),
+                            })}
+                            aria-describedby={
+                              columnIndex > 0 ? `${dropId}-${columnIndex}-${name}` : undefined
+                            }
                           >
+                            {columnIndex > 0 && (
+                              <span id={`${dropId}-${columnIndex}-${name}`} hidden>
+                                {t(messages.journeyDropoff, {
+                                  dropoff: `${dropped}%`,
+                                  conversion: `${remaining}%`,
+                                })}
+                              </span>
+                            )}
                             <Row alignItems="center" className={styles.name} title={name} gap>
                               <Icon>{name.startsWith('/') ? <File /> : <Lightning />}</Icon>
                               <Text truncate>{name}</Text>

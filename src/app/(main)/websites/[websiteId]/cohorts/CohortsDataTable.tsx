@@ -12,6 +12,7 @@ export function CohortsDataTable({ websiteId }: { websiteId?: string }) {
 
   return (
     <DataGrid
+      itemsLabel="cohorts"
       query={query}
       allowSearch={true}
       autoFocus={false}

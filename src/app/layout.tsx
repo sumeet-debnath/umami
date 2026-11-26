@@ -35,6 +35,11 @@ export default function ({ children }) {
         <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#2f2f2f" media="(prefers-color-scheme: dark)" />
         <meta name="robots" content="noindex,nofollow" />
+        <link
+          rel="semantic-sitemap"
+          href={`${process.env.basePath || ''}/semantic-sitemap.json`}
+          type="application/json"
+        />
       </head>
       <body>
         <Suspense>

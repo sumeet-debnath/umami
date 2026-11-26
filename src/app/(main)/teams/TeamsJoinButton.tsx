@@ -2,6 +2,7 @@ import { Button, Dialog, DialogTrigger, Icon, Modal, Text, useToast } from '@uma
 import { useMessages, useModified } from '@/components/hooks';
 import { UserPlus } from '@/components/icons';
 import { TeamJoinForm } from './TeamJoinForm';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function TeamsJoinButton() {
   const { t, labels, messages } = useMessages();
@@ -9,13 +10,13 @@ export function TeamsJoinButton() {
   const { touch } = useModified();
 
   const handleJoin = () => {
-    toast(t(messages.saved));
+    toast(savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.team) })));
     touch('teams');
   };
 
   return (
     <DialogTrigger>
-      <Button>
+      <Button data-agentom-risk="sensitive">
         <Icon>
           <UserPlus />
         </Icon>

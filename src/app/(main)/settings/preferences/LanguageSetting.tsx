@@ -34,7 +34,11 @@ export function LanguageSetting() {
         onSearch={setSearch}
         onOpenChange={handleOpen}
         maxHeight={480}
-        buttonProps={{ style: { minWidth: '250px' } }}
+        buttonProps={{
+          style: { minWidth: '250px' },
+          'aria-label': t(labels.language),
+        }}
+        listProps={{ 'aria-label': t(labels.language) }}
       >
         {items.map(item => (
           <ListItem key={item} id={item}>
@@ -43,7 +47,9 @@ export function LanguageSetting() {
         ))}
         {!items.length && <ListItem></ListItem>}
       </Select>
-      <Button onPress={handleReset}>{t(labels.reset)}</Button>
+      <Button onPress={handleReset} aria-label={t(labels.resetItem, { name: t(labels.language) })}>
+        {t(labels.reset)}
+      </Button>
     </Row>
   );
 }

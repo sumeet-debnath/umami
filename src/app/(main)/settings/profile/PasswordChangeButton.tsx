@@ -2,13 +2,16 @@ import { Button, Dialog, DialogTrigger, Icon, Modal, Text, useToast } from '@uma
 import { useMessages } from '@/components/hooks';
 import { LockKeyhole } from '@/components/icons';
 import { PasswordEditForm } from './PasswordEditForm';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function PasswordChangeButton() {
   const { t, labels, messages } = useMessages();
   const { toast } = useToast();
 
   const handleSave = () => {
-    toast(t(messages.saved));
+    toast(
+      savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.password) })),
+    );
   };
 
   return (

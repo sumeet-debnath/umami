@@ -65,12 +65,21 @@ export function WebsiteDateFilter({
     <Row wrap="wrap" gap>
       {showButtons && !isAllTime && !isCustomRange && (
         <Row gap="1">
-          <Button onPress={() => handleIncrement(-1)} variant="outline">
+          <Button
+            onPress={() => handleIncrement(-1)}
+            variant="outline"
+            aria-label={t(labels.previousPeriod)}
+          >
             <Icon rotate={180}>
               <ChevronRight />
             </Icon>
           </Button>
-          <Button onPress={() => handleIncrement(1)} variant="outline" isDisabled={disableForward}>
+          <Button
+            onPress={() => handleIncrement(1)}
+            variant="outline"
+            isDisabled={disableForward}
+            aria-label={t(labels.nextPeriod)}
+          >
             <Icon>
               <ChevronRight />
             </Icon>
@@ -91,7 +100,11 @@ export function WebsiteDateFilter({
             <Select
               value={compare}
               onChange={handleSelect}
-              buttonProps={{ style: { width: 200 } }}
+              buttonProps={{
+                style: { width: 200 },
+                'aria-label': 'Compare to',
+              }}
+              listProps={{ 'aria-label': 'Compare to' }}
               popoverProps={{ style: { width: 200 } }}
             >
               <ListItem id="prev">{t(labels.previousPeriod)}</ListItem>

@@ -61,7 +61,7 @@ export function MetricsExpandedTable({
           {children}
           {allowDownload && <DownloadButton filename={type} data={data} />}
           {onClose && (
-            <Button onPress={onClose} variant="quiet">
+            <Button onPress={onClose} variant="quiet" aria-label={t(labels.close)}>
               <Icon>
                 <X />
               </Icon>

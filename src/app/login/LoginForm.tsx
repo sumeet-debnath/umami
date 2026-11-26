@@ -54,7 +54,7 @@ export function LoginForm() {
           name="username"
           rules={{ required: t(labels.required) }}
         >
-          <TextField autoComplete="username" />
+          <TextField aria-required="true" autoComplete="username" />
         </FormField>
 
         <FormField
@@ -63,7 +63,7 @@ export function LoginForm() {
           name="password"
           rules={{ required: t(labels.required) }}
         >
-          <PasswordField autoComplete="current-password" />
+          <PasswordField aria-required="true" autoComplete="current-password" />
         </FormField>
         <FormButtons>
           <FormSubmitButton

@@ -2,11 +2,16 @@
 import { Loading, useToast } from '@umami/react-zen';
 import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { BoardContext, type LayoutGetter } from '@/app/(main)/boards/BoardProvider';
+import {
+  BoardContext,
+  getBoardSnapshot,
+  type LayoutGetter,
+} from '@/app/(main)/boards/BoardProvider';
 import { getComponentDefinition } from '@/app/(main)/boards/boardComponentRegistry';
 import { useApi, useDashboardQuery, useMessages, useModified } from '@/components/hooks';
 import { BOARD_TYPES } from '@/lib/boards';
 import type { Board, BoardParameters } from '@/lib/types';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 const createDefaultBoard = (): Partial<Board> => ({
   type: BOARD_TYPES.dashboard,
@@ -54,6 +59,7 @@ export function DashboardProvider({
   const { t, labels, messages } = useMessages();
   const [board, setBoard] = useState<Partial<Board>>(data ?? createDefaultBoard());
   const layoutGetterRef = useRef<LayoutGetter | null>(null);
+  const [savedSnapshot, setSavedSnapshot] = useState(() => getBoardSnapshot(board));
 
   const registerLayoutGetter = useCallback((getter: LayoutGetter) => {
     layoutGetterRef.current = getter;
@@ -61,10 +67,12 @@ export function DashboardProvider({
 
   useEffect(() => {
     if (data) {
-      setBoard({
+      const nextBoard = {
         ...data,
         parameters: sanitizeBoardParameters(data.parameters),
-      });
+      };
+      setBoard(nextBoard);
+      setSavedSnapshot(getBoardSnapshot(nextBoard));
     }
   }, [data]);
 
@@ -92,7 +100,11 @@ export function DashboardProvider({
       parameters,
     });
 
-    toast(t(messages.saved));
+    setSavedSnapshot(getBoardSnapshot(board));
+
+    toast(
+      savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.dashboard) })),
+    );
     touch('dashboard');
     touch('boards');
 
@@ -105,7 +117,15 @@ export function DashboardProvider({
 
   return (
     <BoardContext.Provider
-      value={{ board, editing, updateBoard, saveBoard, isPending, registerLayoutGetter }}
+      value={{
+        board,
+        editing,
+        updateBoard,
+        saveBoard,
+        isPending,
+        registerLayoutGetter,
+        isModified: getBoardSnapshot(board) !== savedSnapshot,
+      }}
     >
       {children}
     </BoardContext.Provider>

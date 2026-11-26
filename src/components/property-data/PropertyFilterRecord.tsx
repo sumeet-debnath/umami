@@ -165,6 +165,8 @@ export function PropertyFilterRecord({
           <Select
             value={filter.operator}
             onChange={value => handleOperatorChange(value as Operator)}
+            buttonProps={{ 'aria-label': 'Operator' }}
+            listProps={{ 'aria-label': 'Operator' }}
           >
             {operators.map(op => (
               <ListItem key={op} id={op}>
@@ -176,6 +178,8 @@ export function PropertyFilterRecord({
             <Select
               value={filter.value || 'true'}
               onChange={value => onChange({ ...filter, value: value as string })}
+              buttonProps={{ 'aria-label': t(labels.value) }}
+              listProps={{ 'aria-label': t(labels.value) }}
             >
               <ListItem id="true">{t(labels.true)}</ListItem>
               <ListItem id="false">{t(labels.false)}</ListItem>
@@ -217,6 +221,7 @@ export function PropertyFilterRecord({
             />
           ) : (
             <MultiSelect
+              label={t(labels.value)}
               value={selected}
               onChange={vals => onChange({ ...filter, value: vals.join(',') })}
               searchValue={search}

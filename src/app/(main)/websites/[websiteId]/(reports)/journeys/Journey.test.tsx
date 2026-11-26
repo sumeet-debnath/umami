@@ -14,6 +14,7 @@ vi.mock('@/components/hooks', () => ({
   useMessages: () => ({
     t: (label: string) => label,
     labels: { visitors: 'visitors', dropoff: 'dropoff', conversion: 'conversion' },
+    messages: { journeyNode: 'journeyNode', journeyDropoff: 'journeyDropoff' },
   }),
 }));
 

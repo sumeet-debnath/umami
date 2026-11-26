@@ -2,6 +2,7 @@ import { Button, Dialog, DialogTrigger, Icon, Modal, Text, useToast } from '@uma
 import { useMessages, useModified } from '@/components/hooks';
 import { Plus } from '@/components/icons';
 import { TeamAddForm } from './TeamAddForm';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 export function TeamsAddButton({
   onSave,
@@ -15,7 +16,7 @@ export function TeamsAddButton({
   const { touch } = useModified();
 
   const handleSave = async () => {
-    toast(t(messages.saved));
+    toast(savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.team) })));
     touch('teams');
     onSave?.();
   };

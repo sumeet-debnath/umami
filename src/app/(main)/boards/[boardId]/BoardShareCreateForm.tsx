@@ -58,7 +58,7 @@ export function BoardShareCreateForm({
       {({ watch, setValue }) => (
         <Column gap="4">
           <FormField label={t(labels.name)} name="name" rules={{ required: t(labels.required) }}>
-            <TextField autoComplete="off" autoFocus />
+            <TextField aria-required="true" autoComplete="off" autoFocus />
           </FormField>
           <FormField name="allowFilter">
             <Checkbox>{t(labels.filters)}</Checkbox>

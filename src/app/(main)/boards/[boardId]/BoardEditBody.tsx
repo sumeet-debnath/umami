@@ -1,16 +1,18 @@
 import { Box, Button, Icon, Row, Tooltip, TooltipTrigger } from '@umami/react-zen';
 import { produce } from 'immer';
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useId, useRef } from 'react';
 import { Group, type GroupImperativeHandle, Panel, Separator } from 'react-resizable-panels';
 import { v4 as uuid } from 'uuid';
-import { useBoard } from '@/components/hooks';
+import { useBoard, useMessages } from '@/components/hooks';
 import { GripHorizontal, Plus } from '@/components/icons';
 import { getBoardEntity, getBoardType, requiresBoardEntity } from '@/lib/boards';
 import { BoardEditRow } from './BoardEditRow';
 import { BUTTON_ROW_HEIGHT, MAX_ROW_HEIGHT, MIN_ROW_HEIGHT } from './boardConstants';
 
 export function BoardEditBody({ requiresBoardWebsite = true }: { requiresBoardWebsite?: boolean }) {
-  const { board, updateBoard, registerLayoutGetter } = useBoard();
+  const { t, labels, messages } = useMessages();
+  const savedStateId = useId();
+  const { board, updateBoard, registerLayoutGetter, isModified } = useBoard();
   const rowGroupRef = useRef<GroupImperativeHandle>(null);
   const columnGroupRefs = useRef<Map<string, GroupImperativeHandle>>(new Map());
 
@@ -110,7 +112,10 @@ export function BoardEditBody({ requiresBoardWebsite = true }: { requiresBoardWe
   const minHeight = (rows.length || 1) * MAX_ROW_HEIGHT + BUTTON_ROW_HEIGHT;
 
   return (
-    <Box>
+    <Box role="region" aria-label={t(labels.boardLayout)} aria-describedby={savedStateId}>
+      <span id={savedStateId} hidden>
+        {t(isModified ? messages.unsavedChanges : messages.noUnsavedChanges)}
+      </span>
       <Group style={{ minHeight: `${minHeight}px` }} groupRef={rowGroupRef} orientation="vertical">
         {rows.map((row, index) => (
           <Fragment key={`${row.id}:${row.size ?? 'auto'}`}>
@@ -164,7 +169,7 @@ export function BoardEditBody({ requiresBoardWebsite = true }: { requiresBoardWe
           <Panel minSize={BUTTON_ROW_HEIGHT}>
             <Row paddingY="3">
               <TooltipTrigger delay={0}>
-                <Button variant="outline" onPress={handle}>
+                <Button variant="outline" onPress={handle} aria-label={t(labels.addRow)}>
                   <Icon>
                     <Plus />
                   </Icon>

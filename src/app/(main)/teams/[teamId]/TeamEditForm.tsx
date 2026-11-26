@@ -11,6 +11,7 @@ import { IconLabel } from '@/components/common/IconLabel';
 import { useMessages, useTeam, useUpdateQuery } from '@/components/hooks';
 import { RefreshCw } from '@/components/icons';
 import { getRandomChars } from '@/lib/generate';
+import { savedToastMessage } from '@/components/common/SavedToast';
 
 const generateId = () => `team_${getRandomChars(16)}`;
 
@@ -33,7 +34,9 @@ export function TeamEditForm({
   const handleSubmit = async (data: any) => {
     await mutateAsync(data, {
       onSuccess: async () => {
-        toast(t(messages.saved));
+        toast(
+          savedToastMessage(t(messages.saved), t(messages.itemSaved, { item: t(labels.team) })),
+        );
         touch('teams');
         touch(`teams:${teamId}`);
         onSave?.();
@@ -50,7 +53,7 @@ export function TeamEditForm({
               <TextField isReadOnly allowCopy />
             </FormField>
             <FormField name="name" label={t(labels.name)} rules={{ required: t(labels.required) }}>
-              <TextField isReadOnly={!allowEdit} />
+              <TextField aria-required="true" isReadOnly={!allowEdit} />
             </FormField>
             {showAccessCode && (
               <Row alignItems="flex-end" gap>

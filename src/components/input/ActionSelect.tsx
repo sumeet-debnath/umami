@@ -10,7 +10,12 @@ export function ActionSelect({ value = 'path', onChange }: ActionSelectProps) {
   const { t, labels } = useMessages();
 
   return (
-    <Select value={value} onChange={val => onChange?.(val as string)}>
+    <Select
+      value={value}
+      onChange={val => onChange?.(val as string)}
+      buttonProps={{ 'aria-label': t(labels.action) }}
+      listProps={{ 'aria-label': t(labels.action) }}
+    >
       <ListItem id="path">{t(labels.viewedPage)}</ListItem>
       <ListItem id="event">{t(labels.triggeredEvent)}</ListItem>
     </Select>

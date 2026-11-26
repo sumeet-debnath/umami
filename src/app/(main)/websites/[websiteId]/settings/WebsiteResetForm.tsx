@@ -27,6 +27,7 @@ export function WebsiteResetForm({
   return (
     <TypeConfirmationForm
       confirmationValue={CONFIRM_VALUE}
+      buttonProps={{ 'data-agentom-risk': 'destructive' }}
       onConfirm={handleConfirm}
       onClose={onClose}
       isLoading={isPending}
